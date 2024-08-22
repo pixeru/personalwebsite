@@ -1,37 +1,67 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 function RenderName() {
   return <div className="text-white z-10 relative">asd</div>;
 }
 
 function CosmicTravelBackground() {
-  useEffect(() => {
-    const scene = document.querySelector('.scene');
-    const createDiv = () => {
-      for (let i = 0; i < 210; i++) {
-        const div = document.createElement('div');
-        scene.appendChild(div);
-      }
-    };
-    createDiv();
+  const sceneRef = useRef(null);
 
-    const stars = document.querySelectorAll('.scene > div');
-    stars.forEach(star => {
-      let x = `${Math.random() * 200}vmax`;
-      let y = `${Math.random() * 100}vh`;
-      let z = `${Math.random() * 200 - 100}vmin`;
-      let rx = `${Math.random() * 360}deg`;
-      star.style.setProperty('--x', x);
-      star.style.setProperty('--y', y);
-      star.style.setProperty('--z', z);
-      star.style.setProperty('--rx', rx);
-      let delay = `${Math.random() * 1.5}s`;
-      star.style.animationDelay = delay;
-    });
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const stars = [];
+    const starCount = 210;
+
+    class Star {
+      constructor() {
+        this.element = document.createElement('div');
+        this.reset();
+        scene.appendChild(this.element);
+      }
+
+      reset() {
+        this.x = Math.random() * 200;
+        this.y = Math.random() * 100;
+        this.z = Math.random() * 200 - 100;
+        this.rx = Math.random() * 360;
+        this.animationDuration = 1.5 + Math.random() * 1.5;
+        this.animationDelay = Math.random() * 1.5;
+      }
+
+      update() {
+        this.element.style.setProperty('--x', `${this.x}vmax`);
+        this.element.style.setProperty('--y', `${this.y}vh`);
+        this.element.style.setProperty('--z', `${this.z}vmin`);
+        this.element.style.setProperty('--rx', `${this.rx}deg`);
+        this.element.style.animation = `animate ${this.animationDuration}s infinite ease-in ${this.animationDelay}s`;
+      }
+    }
+
+    for (let i = 0; i < starCount; i++) {
+      const star = new Star();
+      stars.push(star);
+      star.update();
+    }
+
+    const resetStar = (star) => {
+      star.reset();
+      star.update();
+    };
+
+    const animationEndHandler = (event) => {
+      resetStar(stars.find(star => star.element === event.target));
+    };
+
+    scene.addEventListener('animationend', animationEndHandler);
+
+    return () => {
+      scene.removeEventListener('animationend', animationEndHandler);
+      stars.forEach(star => star.element.remove());
+    };
   }, []);
 
-  return <main className="scene"></main>;
+  return <main ref={sceneRef} className="scene"></main>;
 }
 
 export default function Home() {
@@ -68,11 +98,11 @@ export default function Home() {
             translateZ(var(--x))
             scaleX(1);
           position: absolute;
-          top: 0%;
-          left: 0%;
-          animation: animate 1.5s infinite ease-in;
+          top: var(--y);
+          left: 0;
           background: #fff;
           box-shadow: 0 0 20px rgb(10, 239, 255);
+          will-change: transform, opacity;
         }
         @keyframes animate {
           0%, 90% {
