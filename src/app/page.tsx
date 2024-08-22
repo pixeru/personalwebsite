@@ -101,28 +101,30 @@ interface ShootingStarInterface {
       <>
         <style jsx global>{`
           * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          body {
-            background: #000;
-            overflow: hidden;
-          }
-          .scene {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            background-image: 
-              radial-gradient(circle at 40% 50%, #610b4b 0%, #a30d8a00 40%),
-              radial-gradient(circle at 65% 60%, #420a50 0%, #580e7500 45%),
-              radial-gradient(circle at 40% 60%, #076066 0%, #17777700 45%);
-            background-blend-mode: screen;
-            pointer-events: none;
-          }
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+          background: #000;
+        }
+        .hero-section {
+          position: relative;
+          height: 100vh;
+          overflow: hidden;
+        }
+        .scene {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: 
+            radial-gradient(circle at 40% 50%, #610b4b 0%, #a30d8a00 40%),
+            radial-gradient(circle at 65% 60%, #420a50 0%, #580e7500 45%),
+            radial-gradient(circle at 40% 60%, #076066 0%, #17777700 45%);
+          background-blend-mode: screen;
+        }
           .twinkling-star {
             position: absolute;
             width: 1px;
@@ -142,6 +144,12 @@ interface ShootingStarInterface {
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
             transform: rotate(-45deg);
           }
+            .portfolio-section {
+          background: black;
+          min-height: 100vh;
+          padding: 2rem;
+          color: white;
+            }
           @keyframes twinkle {
             0%, 100% { opacity: 0; transform: translateZ(0) scale(0.1); }
             10%, 90% { opacity: 1; transform: translateZ(0) scale(var(--scale)); }
@@ -197,9 +205,15 @@ interface ShootingStarInterface {
             }
           }
         `}</style>
-        <div className="relative h-screen w-full flex items-center justify-center">
+        <div className="hero-section">
           <CosmicTravelBackground />
-          <RenderName />
+          <div className="flex items-center justify-center h-full">
+            <RenderName />
+          </div>
+        </div>
+        <div className="portfolio-section">
+          <h2 className="text-3xl font-bold mb-8">My Portfolio</h2>
+          {/* Add your portfolio content here */}
         </div>
       </>
     );
