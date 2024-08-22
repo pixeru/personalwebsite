@@ -168,8 +168,8 @@ export default function Home() {
           }
         `}</style>
         <div className="relative h-screen w-full flex items-center justify-center">
-          <CosmicTravelBackground />
-          <RenderName />
+          <CosmicTravelBackground /> {/* Background */}
+          <RenderName /> {/* Name */}
         </div>
       </>
     );
