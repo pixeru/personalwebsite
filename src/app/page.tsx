@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 
 function RenderName() {
     return (
-      <div className="name-container relative z-10 p-4">
+      <div className="relative z-10 p-4">
         <div className="text-white text-4xl sm:text-5xl md:text-6xl font-bold text-center">
           Hi! I&apos;m Joshua Prayogo. 
           <br/> 
@@ -169,22 +169,6 @@ interface ShootingStarInterface {
               transform: translate(var(--end-x), var(--end-y)) rotate(-45deg) scale(1);
               opacity: 0;
             }
-          }
-          .name-container {
-            position: relative;
-          }
-          .name-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 70%);
-            z-index: -1;
-            opacity: 0.5;
-            pointer-events: none;
           }
           @media (max-width: 640px) {
             .shooting-star {
