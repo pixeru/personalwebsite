@@ -16,73 +16,83 @@ function RenderName() {
     );
   }
 
-function CosmicTravelBackground() {
-  const sceneRef = useRef(null);
-
-  useEffect(() => {
-    const scene = sceneRef.current;
-    const shootingStars = [];
-    const shootingStarCount = 20;
-
-    class ShootingStar {
-      constructor() {
-        this.element = document.createElement('div');
-        this.element.className = 'shooting-star';
-        this.reset();
-        scene.appendChild(this.element);
+  interface ShootingStarInterface {
+    element: HTMLDivElement;
+    reset: () => void;
+  }
+  
+  function CosmicTravelBackground() {
+    const sceneRef = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+      const scene = sceneRef.current;
+      if (!scene) return;
+  
+      const shootingStars: ShootingStarInterface[] = [];
+      const shootingStarCount = 20;
+  
+      class ShootingStar implements ShootingStarInterface {
+        element: HTMLDivElement;
+  
+        constructor() {
+          this.element = document.createElement('div');
+          this.element.className = 'shooting-star';
+          this.reset();
+          scene.appendChild(this.element);
+        }
+  
+        reset() {
+          const startX = Math.random() * 100;
+          const startY = Math.random() * 100;
+          const endX = startX - 50 - Math.random() * 50;
+          const endY = startY + 50 + Math.random() * 50;
+          const animationDuration = 1 + Math.random();
+          this.element.style.setProperty('--start-x', `${startX}vw`);
+          this.element.style.setProperty('--start-y', `${startY}vh`);
+          this.element.style.setProperty('--end-x', `${endX}vw`);
+          this.element.style.setProperty('--end-y', `${endY}vh`);
+          this.element.style.setProperty('--duration', `${animationDuration}s`);
+          this.element.style.animation = 'none';
+          this.element.offsetHeight; // Trigger reflow
+          this.element.style.animation = `shoot var(--duration) linear`;
+        }
       }
-
-      reset() {
-        this.startX = Math.random() * 100;
-        this.startY = Math.random() * 100;
-        this.endX = this.startX - 50 - Math.random() * 50;
-        this.endY = this.startY + 50 + Math.random() * 50;
-        this.animationDuration = 1 + Math.random();
-        this.element.style.setProperty('--start-x', `${this.startX}vw`);
-        this.element.style.setProperty('--start-y', `${this.startY}vh`);
-        this.element.style.setProperty('--end-x', `${this.endX}vw`);
-        this.element.style.setProperty('--end-y', `${this.endY}vh`);
-        this.element.style.setProperty('--duration', `${this.animationDuration}s`);
-        this.element.style.animation = 'none';
-        this.element.offsetHeight; // Trigger reflow
-        this.element.style.animation = `shoot var(--duration) linear`;
+  
+      for (let i = 0; i < shootingStarCount; i++) {
+        const star = new ShootingStar();
+        shootingStars.push(star);
       }
-    }
-
-    for (let i = 0; i < shootingStarCount; i++) {
-      const star = new ShootingStar();
-      shootingStars.push(star);
-    }
-
-    const animationEndHandler = (event) => {
-      if (event.target.className === 'shooting-star') {
-        const star = shootingStars.find(s => s.element === event.target);
-        if (star) star.reset();
-      }
-    };
-
-    scene.addEventListener('animationend', animationEndHandler);
-
-    return () => {
-      scene.removeEventListener('animationend', animationEndHandler);
-      shootingStars.forEach(star => star.element.remove());
-    };
-  }, []);
-
-  return (
-    <div ref={sceneRef} className="scene">
-      {[...Array(200)].map((_, i) => (
-        <div key={i} className="twinkling-star" style={{
-          '--delay': `${Math.random() * 5}s`,
-          '--duration': `${3 + Math.random() * 2}s`,
-          '--x': `${Math.random() * 100}%`,
-          '--y': `${Math.random() * 100}%`,
-          '--scale': `${0.1 + Math.random() * 0.9}`
-        }} />
-      ))}
-    </div>
-  );
-}
+  
+      const animationEndHandler = (event: AnimationEvent) => {
+        if (event.target instanceof HTMLElement && event.target.className === 'shooting-star') {
+          const star = shootingStars.find(s => s.element === event.target);
+          if (star) star.reset();
+        }
+      };
+  
+      scene.addEventListener('animationend', animationEndHandler);
+  
+      return () => {
+        scene.removeEventListener('animationend', animationEndHandler);
+        shootingStars.forEach(star => star.element.remove());
+      };
+    }, []);
+  
+    return (
+      <div ref={sceneRef} className="scene">
+        {[...Array(200)].map((_, i) => (
+          <div key={i} className="twinkling-star" style={{
+            '--delay': `${Math.random() * 5}s`,
+            '--duration': `${3 + Math.random() * 2}s`,
+            '--x': `${Math.random() * 100}%`,
+            '--y': `${Math.random() * 100}%`,
+            '--scale': `${0.1 + Math.random() * 0.9}`
+          } as React.CSSProperties} />
+        ))}
+      </div>
+    );
+  }
+  
 
 export default function Home() {
     return (
