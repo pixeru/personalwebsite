@@ -3,13 +3,12 @@ import React, { useEffect, useRef } from 'react';
 
 function RenderName() {
     return (
-      <div className="name-container relative z-10">
-        <div className="text-white text-6xl font-bold text-center">
+      <div className="name-container relative z-10 p-4">
+        <div className="text-white text-4xl sm:text-5xl md:text-6xl font-bold text-center">
           Hi! I&apos;m Joshua Prayogo. 
           <br/> 
-          <div className="text-white text-2xl text-center">
+          <div className="text-white text-xl sm:text-2xl mt-2">
             I&apos;m a Software / Game Developer.
-            <br/> 
           </div>
         </div>
       </div>
@@ -97,7 +96,7 @@ interface ShootingStarInterface {
   
   
 
-export default function Home() {
+  export default function Home() {
     return (
       <>
         <style jsx global>{`
@@ -138,8 +137,8 @@ export default function Home() {
           }
           .shooting-star {
             position: absolute;
-            width: 2px;
-            height: 2px;
+            width: 1px;
+            height: 1px;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
             transform: rotate(-45deg);
           }
@@ -179,13 +178,33 @@ export default function Home() {
             opacity: 0.5;
             pointer-events: none;
           }
+          @media (max-width: 640px) {
+            .shooting-star {
+              width: 1px;
+              height: 1px;
+            }
+          }
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .shooting-star {
+              width: 1.5px;
+              height: 1.5px;
+            }
+          }
+          @media (min-width: 1025px) {
+            .shooting-star {
+              width: 2px;
+              height: 2px;
+            }
+          }
         `}</style>
         <div className="relative h-screen w-full flex items-center justify-center">
-          <CosmicTravelBackground /> {/* Background */}
-          <RenderName /> {/* Name */}
+          <CosmicTravelBackground />
+          <RenderName />
         </div>
       </>
     );
-  }
+}
+
+
   
   
