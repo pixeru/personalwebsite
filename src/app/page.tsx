@@ -14,9 +14,9 @@ function RenderName() {
         </div>
       </div>
     );
-  }
+}
 
-  interface ShootingStarInterface {
+interface ShootingStarInterface {
     element: HTMLDivElement;
     reset: () => void;
   }
@@ -33,12 +33,14 @@ function RenderName() {
   
       class ShootingStar implements ShootingStarInterface {
         element: HTMLDivElement;
+        private scene: HTMLDivElement;
   
-        constructor() {
+        constructor(scene: HTMLDivElement) {
+          this.scene = scene;
           this.element = document.createElement('div');
           this.element.className = 'shooting-star';
           this.reset();
-          scene.appendChild(this.element);
+          this.scene.appendChild(this.element);
         }
   
         reset() {
@@ -59,7 +61,7 @@ function RenderName() {
       }
   
       for (let i = 0; i < shootingStarCount; i++) {
-        const star = new ShootingStar();
+        const star = new ShootingStar(scene);
         shootingStars.push(star);
       }
   
@@ -92,6 +94,7 @@ function RenderName() {
       </div>
     );
   }
+  
   
 
 export default function Home() {
