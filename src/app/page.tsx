@@ -2,19 +2,19 @@
 import React, { useEffect, useRef } from 'react';
 
 function RenderName() {
-  return (
-  <>
-    <div className="text-white text-6xl font-bold z-10 relative text-center">
-        Hi! I'm Joshua Prayogo. 
-        <br/> 
-        <div className="text-white text-2xl z-10 relative text-center">
-        I'm a Software / Game Developer.
-        <br/> 
+    return (
+      <div className="name-container relative z-10">
+        <div className="text-white text-6xl font-bold text-center">
+          Hi! I'm Joshua Prayogo. 
+          <br/> 
+          <div className="text-white text-2xl text-center">
+            I'm a Software / Game Developer.
+            <br/> 
+          </div>
         </div>
-    </div>
-    
-  </>);
-}
+      </div>
+    );
+  }
 
 function CosmicTravelBackground() {
   const sceneRef = useRef(null);
@@ -85,76 +85,94 @@ function CosmicTravelBackground() {
 }
 
 export default function Home() {
-  return (
-    <>
-      <style jsx global>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-        body {
-          background: #000;
-          overflow: hidden;
-        }
-        .scene {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          overflow: hidden;
-          background-image: 
-            radial-gradient(circle at 40% 50%, #610b4b 0%, #a30d8a00 40%),
-            radial-gradient(circle at 65% 60%, #420a50 0%, #580e7500 45%),
-            radial-gradient(circle at 40% 60%, #076066 0%, #17777700 45%);
-          background-blend-mode: screen;
-          pointer-events: none;
-        }
-        .twinkling-star {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          background: #fff;
-          border-radius: 50%;
-          box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
-          animation: twinkle var(--duration) infinite both;
-          animation-delay: var(--delay);
-          top: var(--y);
-          left: var(--x);
-        }
-        .shooting-star {
-          position: absolute;
-          width: 2px;
-          height: 2px;
-          background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
-          transform: rotate(-45deg);
-        }
-        @keyframes twinkle {
-          0%, 100% { opacity: 0; transform: translateZ(0) scale(0.1); }
-          10%, 90% { opacity: 1; transform: translateZ(0) scale(var(--scale)); }
-        }
-        @keyframes shoot {
-          0% {
-            transform: translate(var(--start-x), var(--start-y)) rotate(-45deg) scale(0);
-            opacity: 0;
+    return (
+      <>
+        <style jsx global>{`
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
           }
-          5% {
-            opacity: 1;
+          body {
+            background: #000;
+            overflow: hidden;
           }
-          90% {
-            opacity: 1;
+          .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-image: 
+              radial-gradient(circle at 40% 50%, #610b4b 0%, #a30d8a00 40%),
+              radial-gradient(circle at 65% 60%, #420a50 0%, #580e7500 45%),
+              radial-gradient(circle at 40% 60%, #076066 0%, #17777700 45%);
+            background-blend-mode: screen;
+            pointer-events: none;
           }
-          100% {
-            transform: translate(var(--end-x), var(--end-y)) rotate(-45deg) scale(1);
-            opacity: 0;
+          .twinkling-star {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+            animation: twinkle var(--duration) infinite both;
+            animation-delay: var(--delay);
+            top: var(--y);
+            left: var(--x);
           }
-        }
-      `}</style>
-      <div className="relative h-screen w-full flex items-center justify-center">
-        <CosmicTravelBackground />
-        <RenderName />
-      </div>
-    </>
-  );
-}
+          .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(-45deg);
+          }
+          @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: translateZ(0) scale(0.1); }
+            10%, 90% { opacity: 1; transform: translateZ(0) scale(var(--scale)); }
+          }
+          @keyframes shoot {
+            0% {
+              transform: translate(var(--start-x), var(--start-y)) rotate(-45deg) scale(0);
+              opacity: 0;
+            }
+            5% {
+              opacity: 1;
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              transform: translate(var(--end-x), var(--end-y)) rotate(-45deg) scale(1);
+              opacity: 0;
+            }
+          }
+          .name-container {
+            position: relative;
+          }
+          .name-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+            opacity: 0.5;
+            pointer-events: none;
+          }
+        `}</style>
+        <div className="relative h-screen w-full flex items-center justify-center">
+          <CosmicTravelBackground />
+          <RenderName />
+        </div>
+      </>
+    );
+  }
+  
+  
