@@ -48,8 +48,9 @@ function RenderAbout() {
                     <div className="w-full md:w-3/4">
                         <h2 className="text-3xl font-bold mb-4">About Me</h2>
                         <p className="mb-6">
-                            I'm a game development hobbyist with a passion for anime. 
-                            I'm studying Computer Science at Douglas College and building my skills in game development. 
+                            I'm a game development hobbyist with a passion for anime-styled visuals.
+                            I also build softwares! 
+                            I'm studying Computer Science at Douglas College and building my skills in game and software development. 
                             I'm dedicated to creating games that combine anime and gaming to appeal to fans of both. 
                             Let's connect and create something awesome together!
                         </p>
