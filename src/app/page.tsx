@@ -5,10 +5,10 @@ function RenderName() {
     return (
       <div className="name-container relative z-10">
         <div className="text-white text-6xl font-bold text-center">
-          Hi! I'm Joshua Prayogo. 
+          Hi! I&apos;m Joshua Prayogo. 
           <br/> 
           <div className="text-white text-2xl text-center">
-            I'm a Software / Game Developer.
+            I&apos;m a Software / Game Developer.
             <br/> 
           </div>
         </div>
