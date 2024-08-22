@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 
 function RenderName() {
-  return <div className="text-white z-10 relative">asd</div>;
+  return <div className="text-white text-4xl font-bold z-10 relative">Hi! I'm Joshua Prayogo.</div>;
 }
 
 function CosmicTravelBackground() {
@@ -10,58 +10,67 @@ function CosmicTravelBackground() {
 
   useEffect(() => {
     const scene = sceneRef.current;
-    const stars = [];
-    const starCount = 210;
+    const shootingStars = [];
+    const shootingStarCount = 20;
 
-    class Star {
+    class ShootingStar {
       constructor() {
         this.element = document.createElement('div');
+        this.element.className = 'shooting-star';
         this.reset();
         scene.appendChild(this.element);
       }
 
       reset() {
-        this.x = Math.random() * 200;
-        this.y = Math.random() * 100;
-        this.z = Math.random() * 200 - 100;
-        this.rx = Math.random() * 360;
-        this.animationDuration = 1.5 + Math.random() * 1.5;
-        this.animationDelay = Math.random() * 1.5;
-      }
-
-      update() {
-        this.element.style.setProperty('--x', `${this.x}vmax`);
-        this.element.style.setProperty('--y', `${this.y}vh`);
-        this.element.style.setProperty('--z', `${this.z}vmin`);
-        this.element.style.setProperty('--rx', `${this.rx}deg`);
-        this.element.style.animation = `animate ${this.animationDuration}s infinite ease-in ${this.animationDelay}s`;
+        this.startX = Math.random() * 100;
+        this.startY = Math.random() * 100;
+        this.endX = this.startX - 50 - Math.random() * 50;
+        this.endY = this.startY + 50 + Math.random() * 50;
+        this.animationDuration = 1 + Math.random();
+        this.element.style.setProperty('--start-x', `${this.startX}vw`);
+        this.element.style.setProperty('--start-y', `${this.startY}vh`);
+        this.element.style.setProperty('--end-x', `${this.endX}vw`);
+        this.element.style.setProperty('--end-y', `${this.endY}vh`);
+        this.element.style.setProperty('--duration', `${this.animationDuration}s`);
+        this.element.style.animation = 'none';
+        this.element.offsetHeight; // Trigger reflow
+        this.element.style.animation = `shoot var(--duration) linear`;
       }
     }
 
-    for (let i = 0; i < starCount; i++) {
-      const star = new Star();
-      stars.push(star);
-      star.update();
+    for (let i = 0; i < shootingStarCount; i++) {
+      const star = new ShootingStar();
+      shootingStars.push(star);
     }
-
-    const resetStar = (star) => {
-      star.reset();
-      star.update();
-    };
 
     const animationEndHandler = (event) => {
-      resetStar(stars.find(star => star.element === event.target));
+      if (event.target.className === 'shooting-star') {
+        const star = shootingStars.find(s => s.element === event.target);
+        if (star) star.reset();
+      }
     };
 
     scene.addEventListener('animationend', animationEndHandler);
 
     return () => {
       scene.removeEventListener('animationend', animationEndHandler);
-      stars.forEach(star => star.element.remove());
+      shootingStars.forEach(star => star.element.remove());
     };
   }, []);
 
-  return <main ref={sceneRef} className="scene"></main>;
+  return (
+    <div ref={sceneRef} className="scene">
+      {[...Array(200)].map((_, i) => (
+        <div key={i} className="twinkling-star" style={{
+          '--delay': `${Math.random() * 5}s`,
+          '--duration': `${3 + Math.random() * 2}s`,
+          '--x': `${Math.random() * 100}%`,
+          '--y': `${Math.random() * 100}%`,
+          '--scale': `${0.1 + Math.random() * 0.9}`
+        }} />
+      ))}
+    </div>
+  );
 }
 
 export default function Home() {
@@ -76,54 +85,64 @@ export default function Home() {
         body {
           background: #000;
           overflow: hidden;
+        }
+        .scene {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
           background-image: 
             radial-gradient(circle at 40% 50%, #610b4b 0%, #a30d8a00 40%),
             radial-gradient(circle at 65% 60%, #420a50 0%, #580e7500 45%),
             radial-gradient(circle at 40% 60%, #076066 0%, #17777700 45%);
           background-blend-mode: screen;
+          pointer-events: none;
         }
-        .scene {
-          height: 100vh;
-          width: 100%;
-          overflow: hidden;
-          perspective: 10vmin;
-        }
-        .scene div {
-          width: 1.5vmin;
-          height: 1.5vmin;
-          transform: 
-            translateZ(-100vmin)
-            rotateY(90deg)
-            rotateX(var(--rx))
-            translateZ(var(--x))
-            scaleX(1);
+        .twinkling-star {
           position: absolute;
-          top: var(--y);
-          left: 0;
+          width: 1px;
+          height: 1px;
           background: #fff;
-          box-shadow: 0 0 20px rgb(10, 239, 255);
-          will-change: transform, opacity;
+          border-radius: 50%;
+          box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+          animation: twinkle var(--duration) infinite both;
+          animation-delay: var(--delay);
+          top: var(--y);
+          left: var(--x);
         }
-        @keyframes animate {
-          0%, 90% {
+        .shooting-star {
+          position: absolute;
+          width: 2px;
+          height: 2px;
+          background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+          transform: rotate(-45deg);
+        }
+        @keyframes twinkle {
+          0%, 100% { opacity: 0; transform: translateZ(0) scale(0.1); }
+          10%, 90% { opacity: 1; transform: translateZ(0) scale(var(--scale)); }
+        }
+        @keyframes shoot {
+          0% {
+            transform: translate(var(--start-x), var(--start-y)) rotate(-45deg) scale(0);
+            opacity: 0;
+          }
+          5% {
+            opacity: 1;
+          }
+          90% {
             opacity: 1;
           }
           100% {
+            transform: translate(var(--end-x), var(--end-y)) rotate(-45deg) scale(1);
             opacity: 0;
-            transform: 
-              translateZ(0vmin)
-              rotateY(90deg)
-              rotateX(var(--rx))
-              translateZ(var(--x))
-              scaleX(6);
           }
         }
       `}</style>
-      <div className="relative h-screen w-full">
+      <div className="relative h-screen w-full flex items-center justify-center">
         <CosmicTravelBackground />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <RenderName />
-        </div>
+        <RenderName />
       </div>
     </>
   );
