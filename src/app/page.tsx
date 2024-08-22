@@ -37,6 +37,53 @@ function RenderName() {
     );
 }
 
+function RenderAbout() {
+    return (
+        <div className="about-section bg-black text-white py-16">
+            <div className="container mx-auto px-4">
+                <div className="flex flex-wrap">
+                    <div className="w-full md:w-1/4 mb-6 md:mb-0">
+                        <img className="profile-pic rounded-full w-48 h-48 mx-auto" src="/pfp.jpg" alt="Profile"/>
+                    </div>
+                    <div className="w-full md:w-3/4">
+                        <h2 className="text-3xl font-bold mb-4">About Me</h2>
+                        <p className="mb-6">
+                            I'm a game development hobbyist with a passion for anime. 
+                            I'm studying Computer Science at Douglas College and building my skills in game development. 
+                            I'm dedicated to creating games that combine anime and gaming to appeal to fans of both. 
+                            Let's connect and create something awesome together!
+                        </p>
+                        <div className="flex flex-wrap">
+                            <div className="w-full md:w-1/2 mb-6 md:mb-0">
+                                <h2 className="text-2xl font-bold mb-2">Contact Details</h2>
+                                <p className="address">
+                                    <span className="block">Joshua Prayogo</span>
+                                    <span className="block">Indonesia</span>
+                                    <span className="block">+62 812-3456-7890 (call / Telegram)</span>
+                                    <span className="block">joshuaprayogo at gmail.com</span>
+                                </p>
+                            </div>
+                            <div className="w-full md:w-1/2">
+                                <p className="mb-2">
+                                    <a href="./CV_Joshua_Prayogo.pdf" target="_blank" className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                                        <span>Download CV</span>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="./Resume_Joshua_Prayogo.pdf" target="_blank" className="button bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                                        <span>Download Resume</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 interface ShootingStarInterface {
     element: HTMLDivElement;
@@ -167,7 +214,7 @@ interface ShootingStarInterface {
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
             transform: rotate(-45deg);
           }
-          .portfolio-section {
+          .about-section {
             background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(43,43,43,1) 80%);
             min-height: 100vh;
             padding: 2rem;
@@ -220,15 +267,18 @@ interface ShootingStarInterface {
             }
           }
         `}</style>
+        {/* Name and Title */}
         <div className="hero-section">
           <CosmicTravelBackground />
           <div className="flex items-center justify-center h-full">
             <RenderName />
           </div>
         </div>
-        <div className="portfolio-section">
-          <h2 className="text-3xl font-bold mb-8">My Portfolio</h2>
-          {/* Add your portfolio content here */}
+
+        {/* About Me */}
+        <div className="about-section">
+          {/* <h2 className="text-3xl font-bold mb-8">About Me</h2> */}
+          <RenderAbout />
         </div>
       </>
     );
