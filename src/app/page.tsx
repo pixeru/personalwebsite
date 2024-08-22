@@ -2,7 +2,18 @@
 import React, { useEffect, useRef } from 'react';
 
 function RenderName() {
-  return <div className="text-white text-4xl font-bold z-10 relative">Hi! I'm Joshua Prayogo.</div>;
+  return (
+  <>
+    <div className="text-white text-6xl font-bold z-10 relative text-center">
+        Hi! I'm Joshua Prayogo. 
+        <br/> 
+        <div className="text-white text-2xl z-10 relative text-center">
+        I'm a Software / Game Developer.
+        <br/> 
+        </div>
+    </div>
+    
+  </>);
 }
 
 function CosmicTravelBackground() {
