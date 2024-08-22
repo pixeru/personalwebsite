@@ -167,21 +167,20 @@ interface ShootingStarInterface {
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
             transform: rotate(-45deg);
           }
-            .portfolio-section {
-          background: black;
-          min-height: 100vh;
-          padding: 2rem;
-          color: white;
-            }
-            .transition-transform {
-                    transition-property: transform;
-                    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-                    transition-duration: 300ms;
-                }
-                
-                .scale-110 {
-                    transform: scale(1.1);
-                }
+          .portfolio-section {
+            background: black;
+            min-height: 100vh;
+            padding: 2rem;
+            color: white;
+          }
+          .transition-transform {
+            transition-property: transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+          }  
+          .scale-110 {
+                transform: scale(1.1);
+          }
           @keyframes twinkle {
             0%, 100% { opacity: 0; transform: translateZ(0) scale(0.1); }
             10%, 90% { opacity: 1; transform: translateZ(0) scale(var(--scale)); }
