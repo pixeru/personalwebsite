@@ -168,7 +168,7 @@ interface ShootingStarInterface {
             transform: rotate(-45deg);
           }
           .portfolio-section {
-            background: black;
+            background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(43,43,43,1) 80%);
             min-height: 100vh;
             padding: 2rem;
             color: white;
