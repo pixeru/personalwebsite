@@ -59,9 +59,9 @@ function RenderAbout() {
                                 <h2 className="text-2xl font-bold mb-2">Contact Details</h2>
                                 <p className="address">
                                     <span className="block">Joshua Prayogo</span>
-                                    <span className="block">Indonesia</span>
-                                    <span className="block">+62 812-3456-7890 (call / Telegram)</span>
-                                    <span className="block">joshuaprayogo at gmail.com</span>
+                                    <span className="block">amosprayogo@gmail.com</span>
+                                    {/* <span className="block">+62 812-3456-7890 (call / Telegram)</span>
+                                    <span className="block">joshuaprayogo at gmail.com</span> */}
                                 </p>
                             </div>
                             <div className="w-full md:w-1/2">
