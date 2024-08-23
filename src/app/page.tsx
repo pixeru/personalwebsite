@@ -217,7 +217,7 @@ interface ShootingStarInterface {
           }
           .about-section {
             background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(43,43,43,1) 80%);
-            min-height: 100vh;
+            height: auto;
             padding: 2rem;
             color: white;
           }
@@ -274,6 +274,12 @@ interface ShootingStarInterface {
           <div className="flex items-center justify-center h-full">
             <RenderName />
           </div>
+        </div>
+
+        {/* About Me */}
+        <div className="about-section">
+          {/* <h2 className="text-3xl font-bold mb-8">About Me</h2> */}
+          <RenderAbout />
         </div>
 
         {/* About Me */}
