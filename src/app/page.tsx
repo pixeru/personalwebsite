@@ -175,6 +175,12 @@ const projects: Project[] = [
       description: "A brief description of project 3. Mention any awards or recognition if applicable.",
       imageUrl: "/project3.jpg",
       projectUrl: "#"
+  },
+  {
+      title: "Project 4",
+      description: "A brief description of project 4. Discuss the problem it solves or its unique selling point.",
+      imageUrl: "/project4.jpg",
+      projectUrl: "#"
   }
 ];
 
@@ -182,15 +188,15 @@ function RenderHighlightedProjects(): JSX.Element {
   return (
       <div className="highlighted-projects-section bg-gradient-to-b from-[#32324C] to-black text-white py-16">
           <div className="container mx-auto px-4">
-              <h2 className="text-4xl font-bold mb-8 text-center">✨Highlighted Projects</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <h2 className="text-4xl font-bold mb-8 text-center">Highlighted Projects</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {projects.map((project, index) => (
                       <div key={index} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
-                          <img src={project.imageUrl} alt={project.title} className="w-full h-48 object-cover" />
-                          <div className="p-6">
-                              <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                              <p className="text-gray-300 mb-4">{project.description}</p>
-                              <a href={project.projectUrl} className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+                          <img src={project.imageUrl} alt={project.title} className="w-full h-40 object-cover" />
+                          <div className="p-4">
+                              <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                              <p className="text-gray-300 text-sm mb-4">{project.description}</p>
+                              <a href={project.projectUrl} className="inline-block bg-blue-500 text-white py-2 px-4 rounded text-sm hover:bg-blue-600 transition-colors duration-300">
                                   View Project
                               </a>
                           </div>
