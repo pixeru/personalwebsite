@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 function RenderName() {
   const [linkedInHovered, setLinkedInHovered] = useState(false);
   const [mediumHovered, setMediumHovered] = useState(false);
+  const [resumeHovered, setResumeHovered] = useState(false);
 
   const getIconStyle = (isHovered: boolean) => ({
       transition: 'transform 0.3s ease-in-out',
@@ -46,6 +47,21 @@ function RenderName() {
                         onClick={() => window.open('https://bit.ly/joshuaprayogomedium', '_blank')}
                     >
                         <path fill="currentColor" d="M180.5 74.3C80.8 74.3 0 155.6 0 256S80.8 437.7 180.5 437.7 361 356.4 361 256 280.2 74.3 180.5 74.3zm288.3 10.6c-49.8 0-90.2 76.6-90.2 171.1s40.4 171.1 90.3 171.1 90.3-76.6 90.3-171.1H559C559 161.5 518.6 84.9 468.8 84.9zm139.5 17.8c-17.5 0-31.7 68.6-31.7 153.3s14.2 153.3 31.7 153.3S640 340.6 640 256C640 171.4 625.8 102.7 608.3 102.7z"/>
+                    </svg>
+
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 384 512"
+                        className="w-6 h-6 ml-2"
+                        style={getIconStyle(resumeHovered)}
+                        onMouseEnter={() => setResumeHovered(true)}
+                        onMouseLeave={() => setResumeHovered(false)}
+                        onClick={() => window.open('https://bit.ly/joshuaprayogoportfolio', '_blank')}
+                    >
+                        <path 
+                            fill="currentColor" 
+                            d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"
+                        />
                     </svg>
                 </div>
             </div>
@@ -217,7 +233,7 @@ function RenderHighlightedProjects(): JSX.Element {
                   ))}
               </div>
               <div className="text-center">
-                  <a href="https://www.resume.id/joshuap/works" target="_blank" className="inline-block bg-purple-600 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                  <a href="https://bit.ly/joshuaprayogoportfolio" target="_blank" className="inline-block bg-purple-600 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                       View Other Projects
                   </a>
               </div>
