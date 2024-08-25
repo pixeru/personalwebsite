@@ -287,7 +287,7 @@ interface ShootingStarInterface {
         `}</style>
         {/* Name and Title */}
         <div className="hero-section">
-          <CosmicTravelBackground />
+          <CosmicTravelBackground /> {/* Background*/}
           <div className="flex items-center justify-center h-full">
             <RenderName />
           </div>
@@ -295,7 +295,6 @@ interface ShootingStarInterface {
 
         {/* About Me */}
         <div className="about-section">
-          {/* <h2 className="text-3xl font-bold mb-8">About Me</h2> */}
           <RenderAbout />
         </div>
       </>
