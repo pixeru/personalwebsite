@@ -160,27 +160,27 @@ interface Project {
 const projects: Project[] = [
   {
       title: "Veiled Truth",
-      description: "A brief description of project 1. This could be a game, an app, or any other software project.",
+      description: "A 3D Detective-Mystery Anime Game created using Unity",
       imageUrl: "/veiled_truth.png",
-      projectUrl: "#"
+      projectUrl: "https://www.resume.id/works/c97f0b654d1de643"
   },
   {
       title: "Parasync",
       description: "A brief description of project 2. Highlight the key features or technologies used.",
       imageUrl: "/parasync.png",
-      projectUrl: "#"
+      projectUrl: "https://kinteyoi.itch.io/parasync"
   },
   {
       title: "EXIT Anti Cheat (C++)",
       description: "A brief description of project 3. Mention any awards or recognition if applicable.",
       imageUrl: "/exit_ac.jpg",
-      projectUrl: "#"
+      projectUrl: "https://www.resume.id/works/7954859f0604a854"
   },
   {
       title: "Raspberry Pi Door Lock",
       description: "A brief description of project 4. Discuss the problem it solves or its unique selling point.",
       imageUrl: "/rasp_lock.jpg",
-      projectUrl: "#"
+      projectUrl: "https://www.resume.id/works/e3d305421fb106ef"
   }
 ];
 
@@ -194,7 +194,7 @@ function RenderHighlightedProjects(): JSX.Element {
                       <div key={index} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
                           <div className="h-48 overflow-hidden">
                               <img 
-                                  src={project.imageUrl} 
+                                  src={project.imageUrl}
                                   alt={project.title} 
                                   className="w-full h-full object-cover"
                               />
@@ -202,7 +202,7 @@ function RenderHighlightedProjects(): JSX.Element {
                           <div className="p-4">
                               <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
                               <p className="text-gray-300 text-sm mb-4">{project.description}</p>
-                              <a href={project.projectUrl} className="inline-block bg-blue-500 text-white py-2 px-4 rounded text-sm hover:bg-blue-600 transition-colors duration-300">
+                              <a href={project.projectUrl} target="_blank" className="inline-block bg-blue-500 text-white py-2 px-4 rounded text-sm hover:bg-blue-600 transition-colors duration-300">
                                   View Project
                               </a>
                           </div>
