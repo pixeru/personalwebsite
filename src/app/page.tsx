@@ -150,6 +150,58 @@ function RenderAbout(): JSX.Element {
     );
 }
 
+interface Project {
+  title: string;
+  description: string;
+  imageUrl: string;
+  projectUrl: string;
+}
+
+const projects: Project[] = [
+  {
+      title: "Project 1",
+      description: "A brief description of project 1. This could be a game, an app, or any other software project.",
+      imageUrl: "/project1.jpg",
+      projectUrl: "#"
+  },
+  {
+      title: "Project 2",
+      description: "A brief description of project 2. Highlight the key features or technologies used.",
+      imageUrl: "/project2.jpg",
+      projectUrl: "#"
+  },
+  {
+      title: "Project 3",
+      description: "A brief description of project 3. Mention any awards or recognition if applicable.",
+      imageUrl: "/project3.jpg",
+      projectUrl: "#"
+  }
+];
+
+function RenderHighlightedProjects(): JSX.Element {
+  return (
+      <div className="highlighted-projects-section bg-gradient-to-b from-[#32324C] to-black text-white py-16">
+          <div className="container mx-auto px-4">
+              <h2 className="text-4xl font-bold mb-8 text-center">✨Highlighted Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {projects.map((project, index) => (
+                      <div key={index} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                          <img src={project.imageUrl} alt={project.title} className="w-full h-48 object-cover" />
+                          <div className="p-6">
+                              <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                              <p className="text-gray-300 mb-4">{project.description}</p>
+                              <a href={project.projectUrl} className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+                                  View Project
+                              </a>
+                          </div>
+                      </div>
+                  ))}
+              </div>
+          </div>
+      </div>
+  );
+}
+
 interface ShootingStarInterface {
     element: HTMLDivElement;
     reset: () => void;
@@ -308,6 +360,15 @@ interface ShootingStarInterface {
           /* Profile Pic CSS (pfp CSS) END */
 
           
+          /* Highlighted Projects CSS */
+          .highlighted-projects-section {
+              min-height: 75vh;
+              display: flex;
+              align-items: center;
+          }
+          /* Highlighted Projects CSS END */
+
+
           .transition-transform {
             transition-property: transform;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -367,6 +428,9 @@ interface ShootingStarInterface {
         <div className="about-section">
           <RenderAbout />
         </div>
+
+        {/* Higlighted Projects */}
+        <RenderHighlightedProjects />
       </>
     );
 }
