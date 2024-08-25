@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 
 function RenderName() {
@@ -114,11 +112,11 @@ function RenderAbout(): JSX.Element {
                   <div className="w-full md:w-3/4">
                         <h2 className="text-3xl font-bold mb-4">About Me</h2>
                         <p className="mb-6">
-                            I'm a game development hobbyist with a passion for anime-styled visuals.
+                            I&apos;m a game development hobbyist with a passion for anime-styled visuals.
                             I also build softwares! 
-                            I'm studying Computer Science at Douglas College and building my skills in game and software development. 
-                            I'm dedicated to creating games that combine anime and gaming to appeal to fans of both. 
-                            Let's connect and create something awesome together!
+                            I&apos;m studying Computer Science at Douglas College and building my skills in game and software development. 
+                            I&apos;m dedicated to creating games that combine anime and gaming to appeal to fans of both. 
+                            Let&apos;s connect and create something awesome together!
                         </p>
                         <div className="flex flex-wrap">
                             <div className="w-full md:w-1/2 mb-6 md:mb-0">
