@@ -2,15 +2,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 function RenderName() {
-    const [isHovered, setIsHovered] = useState(false);
+  const [linkedInHovered, setLinkedInHovered] = useState(false);
+  const [mediumHovered, setMediumHovered] = useState(false);
 
-    const iconStyle = {
-        transition: 'transform 0.3s ease-in-out',
-        transform: isHovered ? 'scale(1.2)' : 'scale(1)',
-        display: 'inline-block',
-        verticalAlign: 'middle',
-        cursor: 'pointer'
-    };
+  const getIconStyle = (isHovered: boolean) => ({
+      transition: 'transform 0.3s ease-in-out',
+      transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      cursor: 'pointer'
+  });
 
     return (
         <div className="relative z-10 p-4">
@@ -20,16 +21,30 @@ function RenderName() {
                 <div className="text-white text-xl sm:text-2xl mt-2">
                     I&apos;m a Software / Game Developer.
                     <br/>
+                    {/* LinkedIn Button */}
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
                         viewBox="0 0 448 512" 
                         className="w-6 h-6 ml-2"
-                        style={iconStyle}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
-                        onClick={() => window.open('https://www.linkedin.com/in/joshua-prayogo-b8a057261/', '_blank')}
+                        style={getIconStyle(linkedInHovered)}
+                        onMouseEnter={() => setLinkedInHovered(true)}
+                        onMouseLeave={() => setLinkedInHovered(false)}
+                        onClick={() => window.open('https://bit.ly/joshualinkedin', '_blank')}
                     >
                         <path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+                    </svg>
+
+                    {/* Medium Button */}
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 640 512"
+                        className="w-6 h-6 ml-2"
+                        style={getIconStyle(mediumHovered)}
+                        onMouseEnter={() => setMediumHovered(true)}
+                        onMouseLeave={() => setMediumHovered(false)}
+                        onClick={() => window.open('https://bit.ly/joshuaprayogomedium', '_blank')}
+                    >
+                        <path fill="currentColor" d="M180.5 74.3C80.8 74.3 0 155.6 0 256S80.8 437.7 180.5 437.7 361 356.4 361 256 280.2 74.3 180.5 74.3zm288.3 10.6c-49.8 0-90.2 76.6-90.2 171.1s40.4 171.1 90.3 171.1 90.3-76.6 90.3-171.1H559C559 161.5 518.6 84.9 468.8 84.9zm139.5 17.8c-17.5 0-31.7 68.6-31.7 153.3s14.2 153.3 31.7 153.3S640 340.6 640 256C640 171.4 625.8 102.7 608.3 102.7z"/>
                     </svg>
                 </div>
             </div>
