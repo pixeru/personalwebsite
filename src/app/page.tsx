@@ -1,5 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+
 
 function RenderName() {
   const [linkedInHovered, setLinkedInHovered] = useState(false);
@@ -52,15 +55,63 @@ function RenderName() {
     );
 }
 
-function RenderAbout() {
-    return (
-        <div className="about-section bg-black text-white py-16">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-wrap">
-                    <div className="w-full md:w-1/4 mb-6 md:mb-0">
-                        <img className="profile-pic rounded-full w-48 h-48 mx-auto" src="/pfp.jpg" alt="Profile"/>
-                    </div>
-                    <div className="w-full md:w-3/4">
+function RenderAbout(): JSX.Element {
+  const profilePicRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+      const profilePicContainer = profilePicRef.current;
+      if (!profilePicContainer) return;
+
+      function map(val: number, minA: number, maxA: number, minB: number, maxB: number): number {
+          return minB + ((val - minA) * (maxB - minB)) / (maxA - minA);
+      }
+
+      function applyProfilePic3DEffect(container: HTMLDivElement, ev: MouseEvent): void {
+          const img = container.querySelector('img');
+          if (!img) return;
+
+          const rect = container.getBoundingClientRect();
+          const mouseX = ev.clientX - rect.left;
+          const mouseY = ev.clientY - rect.top;
+          const rotateY = map(mouseX, 0, rect.width, -25, 25);
+          const rotateX = map(mouseY, 0, rect.height, 25, -25);
+          const brightness = map(mouseY, 0, rect.height, 1.5, 0.5);
+
+          img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          img.style.filter = `brightness(${brightness})`;
+      }
+
+      const handleMouseMove = (ev: MouseEvent): void => {
+          applyProfilePic3DEffect(profilePicContainer, ev);
+      };
+
+      const handleMouseLeave = (): void => {
+          const img = profilePicContainer.querySelector('img');
+          if (img) {
+              img.style.transform = 'rotateX(0deg) rotateY(0deg)';
+              img.style.filter = 'brightness(1)';
+          }
+      };
+
+      profilePicContainer.addEventListener('mousemove', handleMouseMove);
+      profilePicContainer.addEventListener('mouseleave', handleMouseLeave);
+
+      return () => {
+          profilePicContainer.removeEventListener('mousemove', handleMouseMove);
+          profilePicContainer.removeEventListener('mouseleave', handleMouseLeave);
+      };
+  }, []);
+
+  return (
+      <div className="about-section bg-black text-white py-16">
+          <div className="container mx-auto px-4">
+              <div className="flex flex-wrap">
+                  <div className="w-full md:w-1/4 mb-6 md:mb-0">
+                      <div ref={profilePicRef} className="profile-pic-container">
+                          <img className="profile-pic rounded-full w-48 h-48 mx-auto" src="/pfp.jpg" alt="Profile"/>
+                      </div>
+                  </div>
+                  <div className="w-full md:w-3/4">
                         <h2 className="text-3xl font-bold mb-4">About Me</h2>
                         <p className="mb-6">
                             I'm a game development hobbyist with a passion for anime-styled visuals.
@@ -238,6 +289,27 @@ interface ShootingStarInterface {
             position: relative;
             overflow: hidden;
           }
+
+
+          /* Profile Pic CSS (pfp CSS) */
+          .profile-pic-container {
+              perspective: 600px;
+              transition: all 250ms ease-out;
+              transform: scale(1);
+          }
+
+          .profile-pic-container:hover {
+              z-index: 10;
+              transform: scale(1.3);
+          }
+
+          .profile-pic {
+              transition: all 250ms ease-out;
+              transform-style: preserve-3d;
+          }
+          /* Profile Pic CSS (pfp CSS) END */
+
+          
           .transition-transform {
             transition-property: transform;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
