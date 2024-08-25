@@ -196,7 +196,7 @@ function RenderHighlightedProjects(): JSX.Element {
                       ))}
                   </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                   {projects.map((project, index) => (
                       <div key={index} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
                           <div className="h-48 overflow-hidden">
@@ -215,6 +215,11 @@ function RenderHighlightedProjects(): JSX.Element {
                           </div>
                       </div>
                   ))}
+              </div>
+              <div className="text-center">
+                  <a href="https://www.resume.id/joshuap/works" target="_blank" className="inline-block bg-purple-600 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-purple-700 transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                      View Other Projects
+                  </a>
               </div>
           </div>
       </div>
@@ -455,6 +460,9 @@ interface ShootingStarInterface {
                     60% { opacity: 1; }
                     95% { opacity: 0; }
                     100% { opacity: 1; }
+                }
+                    .highlighted-projects-section a.hover\:shadow-xl:hover {
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
                 }
           /* Highlighted Projects CSS END */
 
