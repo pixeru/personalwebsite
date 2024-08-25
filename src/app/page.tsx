@@ -192,7 +192,13 @@ function RenderHighlightedProjects(): JSX.Element {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {projects.map((project, index) => (
                       <div key={index} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
-                          <img src={project.imageUrl} alt={project.title} className="w-full h-40 object-cover" />
+                          <div className="h-48 overflow-hidden">
+                              <img 
+                                  src={project.imageUrl} 
+                                  alt={project.title} 
+                                  className="w-full h-full object-cover"
+                              />
+                          </div>
                           <div className="p-4">
                               <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
                               <p className="text-gray-300 text-sm mb-4">{project.description}</p>
