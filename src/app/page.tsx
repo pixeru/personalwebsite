@@ -159,27 +159,27 @@ interface Project {
 
 const projects: Project[] = [
   {
-      title: "Project 1",
+      title: "Veiled Truth",
       description: "A brief description of project 1. This could be a game, an app, or any other software project.",
-      imageUrl: "/project1.jpg",
+      imageUrl: "/veiled_truth.png",
       projectUrl: "#"
   },
   {
-      title: "Project 2",
+      title: "Parasync",
       description: "A brief description of project 2. Highlight the key features or technologies used.",
-      imageUrl: "/project2.jpg",
+      imageUrl: "/parasync.png",
       projectUrl: "#"
   },
   {
-      title: "Project 3",
+      title: "EXIT Anti Cheat (C++)",
       description: "A brief description of project 3. Mention any awards or recognition if applicable.",
-      imageUrl: "/project3.jpg",
+      imageUrl: "/exit_ac.jpg",
       projectUrl: "#"
   },
   {
-      title: "Project 4",
+      title: "Raspberry Pi Door Lock",
       description: "A brief description of project 4. Discuss the problem it solves or its unique selling point.",
-      imageUrl: "/project4.jpg",
+      imageUrl: "/rasp_lock.jpg",
       projectUrl: "#"
   }
 ];
