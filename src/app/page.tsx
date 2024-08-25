@@ -231,10 +231,12 @@ interface ShootingStarInterface {
             transform: rotate(-45deg);
           }
           .about-section {
-            background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(43,43,43,1) 80%);
+            background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(16,16,32,1) 50%, rgba(32,32,64,1) 100%);
             height: auto;
             padding: 2rem;
             color: white;
+            position: relative;
+            overflow: hidden;
           }
           .transition-transform {
             transition-property: transform;
