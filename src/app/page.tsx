@@ -198,6 +198,7 @@ interface ShootingStarInterface {
           position: relative;
           height: 100vh;
           overflow: hidden;
+          z-index: 10;
         }
         .scene {
           position: absolute;
@@ -231,11 +232,44 @@ interface ShootingStarInterface {
             transform: rotate(-45deg);
           }
           .about-section {
-            background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(43,43,43,1) 80%);
-            height: auto;
-            padding: 2rem;
-            color: white;
-          }
+          background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(16,16,32,1) 50%, rgba(32,32,64,1) 100%);
+          min-height: 100vh;
+          padding: 2rem;
+          color: white;
+          position: relative;
+          overflow: hidden;
+          z-index: 20;
+        }
+
+        .star-field {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 21;
+        }
+        
+        /* About CSS */
+        .star {
+          position: absolute;
+          background-color: white;
+          border-radius: 50%;
+          opacity: 0;
+          animation: twinkle-about 4s infinite;
+        }
+
+        @keyframes twinkle-about {
+          0%, 100% { opacity: 0; transform: scale(0.5); }
+          50% { opacity: 1; transform: scale(1); }
+        }
+
+        .about-content {
+          position: relative;
+          z-index: 22;
+        }
+        /* About CSS End */
+
           .transition-transform {
             transition-property: transform;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -283,18 +317,34 @@ interface ShootingStarInterface {
             }
           }
         `}</style>
-        {/* Name and Title */}
+        {/* Name and Title Section */}
         <div className="hero-section">
           <CosmicTravelBackground />
-          <div className="flex items-center justify-center h-full">
+          <div className="flex items-center justify-center h-full relative z-2">
             <RenderName />
           </div>
         </div>
 
-        {/* About Me */}
+        {/* About Section */}
         <div className="about-section">
-          {/* <h2 className="text-3xl font-bold mb-8">About Me</h2> */}
-          <RenderAbout />
+          <div className="star-field">
+            {[...Array(100)].map((_, i) => (
+              <div
+                key={i}
+                className="star"
+                style={{
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  width: `${Math.random() * 2 + 1}px`,
+                  height: `${Math.random() * 2 + 1}px`,
+                  animationDelay: `${Math.random() * 4}s`,
+                }}
+              />
+            ))}
+          </div>
+          <div className="about-content">
+            <RenderAbout />
+          </div>
         </div>
       </>
     );
