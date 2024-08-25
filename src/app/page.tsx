@@ -296,12 +296,6 @@ interface ShootingStarInterface {
           {/* <h2 className="text-3xl font-bold mb-8">About Me</h2> */}
           <RenderAbout />
         </div>
-
-        {/* About Me */}
-        <div className="about-section">
-          {/* <h2 className="text-3xl font-bold mb-8">About Me</h2> */}
-          <RenderAbout />
-        </div>
       </>
     );
 }
