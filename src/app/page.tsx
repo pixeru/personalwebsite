@@ -188,13 +188,13 @@ const projects: Project[] = [
   },
   {
       title: "EXIT Anti Cheat (C++)",
-      description: "A brief description of project 3. Mention any awards or recognition if applicable.",
+      description: "A C++ program that disables all of the shortcut keys (e.g. Alt + F4, Win + D, etc.). The window of the cmd can't be closed unless correct password is typed.",
       imageUrl: "/exit_ac.jpg",
       projectUrl: "https://www.resume.id/works/7954859f0604a854"
   },
   {
       title: "Raspberry Pi Door Lock",
-      description: "A brief description of project 4. Discuss the problem it solves or its unique selling point.",
+      description: "A simple Raspberry Pi door lock system that is demonstrated using cardboard as a door and hinge.",
       imageUrl: "/rasp_lock.jpg",
       projectUrl: "https://www.resume.id/works/e3d305421fb106ef"
   }
