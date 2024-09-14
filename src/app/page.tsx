@@ -181,10 +181,10 @@ const projects: Project[] = [
       projectUrl: "https://www.resume.id/works/c97f0b654d1de643"
   },
   {
-      title: "Parasync",
-      description: "A brief description of project 2. Highlight the key features or technologies used.",
-      imageUrl: "/parasync.png",
-      projectUrl: "https://kinteyoi.itch.io/parasync"
+      title: "MeasureMaster",
+      description: "A Published Unity Asset Store Asset that allows you to measure distances in 3D and 2D space, outputting different units.",
+      imageUrl: "/measuremaster.png",
+      projectUrl: "https://assetstore.unity.com/packages/tools/utilities/measuremaster-294420"
   },
   {
       title: "EXIT Anti Cheat (C++)",
