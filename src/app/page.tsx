@@ -18,7 +18,7 @@ function RenderName() {
     return (
         <div className="relative z-10 p-4">
             <div className="text-white text-4xl sm:text-5xl md:text-6xl font-bold text-center">
-                Hi! I&apos;m Joshua Prayogo. 
+                Hi! I&apos;m Joshua Prayogo.
                 <br/> 
                 <div className="text-white text-xl sm:text-2xl mt-2">
                     I&apos;m a Software / Game Developer.
