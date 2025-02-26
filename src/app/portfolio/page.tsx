@@ -102,57 +102,6 @@ export default function PortfolioSteamPage() {
     return () => clearInterval(interval);
   }, []);
   
-  // Weather icon component with animations
-  const WeatherIcon = ({ condition }) => {
-    switch (condition) {
-      case 'clear':
-        return (
-          <div className="relative w-10 h-10">
-            <div className="absolute inset-0 bg-yellow-400 rounded-full"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-yellow-500 border-t-transparent border-l-transparent border-r-transparent rounded-full animate-spin"></div>
-            </div>
-          </div>
-        );
-      case 'clouds':
-        return (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-8 h-4 bg-gray-300 rounded-full bottom-0 left-1"></div>
-            <div className="absolute w-5 h-3 bg-gray-300 rounded-full top-0 right-1"></div>
-          </div>
-        );
-      case 'rain':
-        return (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-8 h-4 bg-gray-300 rounded-full top-0 left-1"></div>
-            <div className="absolute w-1 h-4 bg-blue-400 bottom-0 left-3 animate-bounce"></div>
-            <div className="absolute w-1 h-4 bg-blue-400 bottom-0 left-5 animate-bounce delay-100"></div>
-          </div>
-        );
-      case 'snow':
-        return (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-8 h-4 bg-gray-300 rounded-full top-0 left-1"></div>
-            <div className="absolute w-2 h-2 bg-white rounded-full bottom-0 left-3 animate-bounce"></div>
-            <div className="absolute w-2 h-2 bg-white rounded-full bottom-0 left-6 animate-bounce delay-150"></div>
-          </div>
-        );
-      case 'storm':
-        return (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-8 h-4 bg-gray-500 rounded-full top-0 left-1"></div>
-            <div className="absolute w-2 h-5 bg-yellow-400 transform rotate-45 bottom-0 left-4"></div>
-          </div>
-        );
-      default:
-        return (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-8 h-4 bg-gray-300 rounded-full top-2 left-1"></div>
-          </div>
-        );
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#171717] text-white overflow-x-hidden font-sans">
       {/* Header with time and social links */}
@@ -163,16 +112,11 @@ export default function PortfolioSteamPage() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" className="w-5 h-5 mr-1">
               <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
             </svg>
-            <div className="bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-              <span className="sr-only">LinkedIn</span>
-              <span>in</span>
-            </div>
           </a>
           <a href="https://bit.ly/joshuaprayogomedium" target="_blank" className="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor" className="w-5 h-5 mr-1">
               <path d="M180.5 74.3C80.8 74.3 0 155.6 0 256S80.8 437.7 180.5 437.7 361 356.4 361 256 280.2 74.3 180.5 74.3zm288.3 10.6c-49.8 0-90.2 76.6-90.2 171.1s40.4 171.1 90.3 171.1 90.3-76.6 90.3-171.1H559C559 161.5 518.6 84.9 468.8 84.9zm139.5 17.8c-17.5 0-31.7 68.6-31.7 153.3s14.2 153.3 31.7 153.3S640 340.6 640 256C640 171.4 625.8 102.7 608.3 102.7z"/>
             </svg>
-            <div className="bg-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">M</div>
           </a>
           <div className="bg-gray-800 px-3 py-1 rounded-sm">
             <span className="text-xl">{currentTime}</span>
@@ -193,9 +137,10 @@ export default function PortfolioSteamPage() {
               key={index} 
               href={project.projectUrl} 
               target="_blank" 
-              className={`flex-none group ${index === 0 ? 'w-96' : 'w-64'}`}
+              // First Element
+              className={`flex-none group ${index === 0 ? 'w-[700px]' : 'w-64'} ${index > 0 ? 'ml-6' : ''}`}
             >
-              <div className={`relative ${index === 0 ? 'h-[450px]' : 'h-[400px]'} mb-2 overflow-hidden rounded`}>
+              <div className={`relative ${index === 0 ? 'h-96 w-full' : 'h-96 w-full'} mb-2 overflow-hidden rounded`}>
                 <img 
                   src={project.imageUrl} 
                   alt={project.title} 
