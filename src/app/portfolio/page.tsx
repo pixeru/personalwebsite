@@ -234,7 +234,7 @@ export default function PortfolioSteamPage() {
       </div>
       
       {/* Status bar */}
-      <div className="flex justify-center py-2 bg-gray-800/90 backdrop-blur-sm text-sm">
+      {/* <div className="flex justify-center py-2 bg-gray-800/90 backdrop-blur-sm text-sm">
         <div className="flex items-center gap-2 text-gray-300">
           {portfolioData.projectStatusIcon === "completed" ? (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-green-500">
@@ -247,7 +247,7 @@ export default function PortfolioSteamPage() {
           )}
           <span>PORTFOLIO STATUS: ACTIVE DEVELOPMENT</span>
         </div>
-      </div>
+      </div> */}
       
       {/* Navigation tabs */}
       <div className="flex justify-center py-2 bg-gray-900/80 backdrop-blur-sm z-10" id="projects">
