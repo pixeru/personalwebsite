@@ -21,7 +21,7 @@ function RenderName() {
                 Hi! I&apos;m Joshua Prayogo.
                 <br/> 
                 <div className="text-white text-xl sm:text-2xl mt-2">
-                    I&apos;m a Software / Game Developer.
+                    I&apos;m a Software/Game Developer & Technical Artist.
                     <br/>
                     {/* LinkedIn Button */}
                     <svg 
