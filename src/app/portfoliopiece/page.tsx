@@ -6,12 +6,13 @@ export default function GamePage() {
   const [activeTab, setActiveTab] = useState('ACTIVITY');
   
   // Game data
-  const gameData = {
+  const projectData = {
     title: "PORTAL REVOLUTION",
-    lastPlayed: "2024",
-    playTime: "3.5 hours",
+    yearCreated: "2024",
+    toolsUsed: "Unreal Engine",
     achievements: "2/21",
-    cloudStatus: "UP TO DATE"
+    projectStatusIcon: "completed",
+    projectStatus: "COMPLETED"
   };
 
   // Friends who played
@@ -106,23 +107,23 @@ const handleShare = () => {
         <div className="flex gap-6">
           <div className="text-sm">
             <div className="text-gray-400">YEAR CREATED</div>
-            <div>{gameData.lastPlayed}</div>
+            <div>{projectData.yearCreated}</div>
           </div>
           
           <div className="text-sm">
-            <div className="text-gray-400">PLAY TIME</div>
-            <div>{gameData.playTime}</div>
+            <div className="text-gray-400">TOOLS USED</div>
+            <div>{projectData.toolsUsed}</div>
           </div>
           
-          <div className="text-sm">
+          {/* <div className="text-sm">
             <div className="text-gray-400">ACHIEVEMENTS</div>
             <div className="flex items-center gap-2">
-              {gameData.achievements}
+              {projectData.achievements}
               <div className="w-16 h-1.5 bg-gray-700 rounded-full overflow-hidden">
                 <div className="w-1/10 h-full bg-blue-400"></div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         
         {/* Share Button */}
@@ -154,17 +155,25 @@ const handleShare = () => {
       {/* Cloud sync status */}
       <div className="flex justify-center py-2 bg-gray-800 text-sm">
         <div className="flex items-center gap-2 text-gray-300">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-          </svg>
-          <span>STEAM CLOUD: {gameData.cloudStatus}</span>
+          {projectData.projectStatusIcon === "completed" ? (
+            // Checkmark icon for completed projects
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-green-500">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ) : projectData.projectStatusIcon === "ongoing" ? (
+            // Circular progress icon for ongoing projects
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-blue-500">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          ) : null}
+          <span>PROJECT STATUS: {projectData.projectStatus}</span>
         </div>
       </div>
       
       {/* Navigation tabs */}
       <div className="flex justify-center py-2 bg-gray-900">
         <div className="flex">
-          {['ACTIVITY', 'YOUR STUFF', 'COMMUNITY', 'GAME INFO'].map((tab) => (
+          {['ACTIVITY', 'GALLERY'].map((tab) => (
             <button 
               key={tab}
               className={`px-4 py-2 ${activeTab === tab ? 'bg-gray-700 rounded-sm' : 'text-gray-400'}`}
