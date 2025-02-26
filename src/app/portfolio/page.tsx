@@ -126,7 +126,7 @@ export default function PortfolioSteamPage() {
   };
   
   return (
-    <div className="min-h-screen text-white relative overflow-x-hidden">
+    <div className="h-screen text-white relative overflow-x-hidden overflow-y-auto">
       {/* Non-parallax background with blur effect */}
       <div 
         className="absolute inset-0 w-full h-full bg-[url('/veiled_truth.png')] bg-cover bg-center blur-xl opacity-30 scale-110 transform-gpu"
@@ -249,9 +249,9 @@ export default function PortfolioSteamPage() {
       </div>
 
       {/* Main content area */}
-      <main className="px-6 py-4 relative z-10 overflow-x-hidden">
+      <main className="px-6 py-4 relative z-10">
         {/* Projects carousel */}
-        <div className="mb-12 overflow-x-hidden">
+        <div className="mb-12">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-800">
           {portfolioProjects.map((project, index) => (
             <a 
