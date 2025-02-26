@@ -259,11 +259,11 @@ export default function PortfolioSteamPage() {
               onClick={() => setActiveTab(tab)}
             >
               {tab}
-              {tab === "CONTACT" && (
+              {/* {tab === "CONTACT" && (
                 <span className="ml-2 bg-green-500 text-white text-xs px-1.5 rounded-full">
                   ✓
                 </span>
-              )}
+              )} */}
             </button>
           ))}
         </div>
