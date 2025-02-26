@@ -103,9 +103,10 @@ export default function PortfolioSteamPage() {
   }, []);
   
   return (
-    <div className="min-h-screen bg-[#171717] text-white overflow-x-hidden font-sans">
-      {/* Header with time and social links */}
-      <header className="flex justify-between items-center px-6 py-3">
+    // Updated background with Steam-like gradient
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white overflow-x-hidden font-sans">
+      {/* Header with time and social links - added backdrop blur */}
+      <header className="flex justify-between items-center px-6 py-3 bg-black/60 backdrop-blur-sm">
         <h1 className="text-2xl font-bold">Portfolio Showcase</h1>
         <div className="flex items-center gap-4">
           <a href="https://bit.ly/joshualinkedin" target="_blank" className="flex items-center">
@@ -118,29 +119,27 @@ export default function PortfolioSteamPage() {
               <path d="M180.5 74.3C80.8 74.3 0 155.6 0 256S80.8 437.7 180.5 437.7 361 356.4 361 256 280.2 74.3 180.5 74.3zm288.3 10.6c-49.8 0-90.2 76.6-90.2 171.1s40.4 171.1 90.3 171.1 90.3-76.6 90.3-171.1H559C559 161.5 518.6 84.9 468.8 84.9zm139.5 17.8c-17.5 0-31.7 68.6-31.7 153.3s14.2 153.3 31.7 153.3S640 340.6 640 256C640 171.4 625.8 102.7 608.3 102.7z"/>
             </svg>
           </a>
-          <div className="bg-gray-800 px-3 py-1 rounded-sm">
+          <div className="bg-gray-800/80 px-3 py-1 rounded-sm">
             <span className="text-xl">{currentTime}</span>
           </div>
           <img src="/pfp.jpg" alt="Joshua Prayogo" className="w-8 h-8 rounded-full" />
         </div>
       </header>
 
-      {/* Main content area */}
-      <main className="px-6 py-4">
-        
-
+      {/* Main content area with gradient overlay */}
+      <main className="px-6 py-4 bg-gradient-to-b from-gray-900/50 to-black/20">
         {/* Projects carousel */}
         <div className="mb-12">
-          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-gray-800">
+          {/* Updated scrollbar colors to match Steam */}
+          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-800">
           {portfolioProjects.map((project, index) => (
             <a 
               key={index} 
               href={project.projectUrl} 
               target="_blank" 
-              // First Element
               className={`flex-none group ${index === 0 ? 'w-[700px]' : 'w-64'} ${index > 0 ? 'ml-6' : ''}`}
             >
-              <div className={`relative ${index === 0 ? 'h-96 w-full' : 'h-96 w-full'} mb-2 overflow-hidden rounded`}>
+              <div className={`relative ${index === 0 ? 'h-96 w-full' : 'h-96 w-full'} mb-2 overflow-hidden rounded bg-gray-800/30`}>
                 <img 
                   src={project.imageUrl} 
                   alt={project.title} 
@@ -180,9 +179,9 @@ export default function PortfolioSteamPage() {
           </div>
         </div>
 
-        {/* Navigation tabs */}
+        {/* Navigation tabs - updated colors to match Steam */}
         <div className="flex justify-center mb-8">
-          <div className="flex space-x-2 bg-gray-900 rounded-full px-2 py-1">
+          <div className="flex space-x-2 bg-gray-900/70 rounded-full px-2 py-1">
             {["PROJECTS", "SKILLS", "CONTACT"].map((tab) => (
               <button
                 key={tab}
@@ -204,14 +203,14 @@ export default function PortfolioSteamPage() {
           </div>
         </div>
 
-        {/* Portfolio updates (like Steam news) */}
+        {/* Portfolio updates - updated with Steam-like card styling */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {portfolioUpdates.map((item, index) => (
             <a 
               key={index} 
               href={item.link} 
               target="_blank" 
-              className="relative overflow-hidden group rounded"
+              className="relative overflow-hidden group rounded bg-gray-800/40 hover:bg-gray-800/60 transition-colors duration-200"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
               <img 
@@ -231,9 +230,9 @@ export default function PortfolioSteamPage() {
         </div>
       </main>
 
-      {/* Footer with navigation */}
+      {/* Footer with navigation - updated with Steam styling */}
       <footer className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-3 flex justify-between items-center border-t border-gray-800">
-        <div className="bg-gray-800 rounded px-3 py-1">
+        <div className="bg-gray-800/80 rounded px-3 py-1">
           <span className="mr-2">JOSHUA</span>
           <span className="text-gray-400">PRAYOGO</span>
         </div>
