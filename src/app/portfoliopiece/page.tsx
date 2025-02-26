@@ -8,7 +8,7 @@ export default function GamePage() {
   // Game data
   const gameData = {
     title: "PORTAL REVOLUTION",
-    lastPlayed: "Dec 22, 2024",
+    lastPlayed: "2024",
     playTime: "3.5 hours",
     achievements: "2/21",
     cloudStatus: "UP TO DATE"
@@ -23,6 +23,25 @@ export default function GamePage() {
   const friendsWithWishlist = [
     { id: 1, avatar: "/friend2.jpg" }
   ];
+
+  const [showCopied, setShowCopied] = useState(false);
+
+const handleShare = () => {
+  // Copy current URL to clipboard
+  navigator.clipboard.writeText(window.location.href)
+    .then(() => {
+      // Show the copied message
+      setShowCopied(true);
+      
+      // Hide the message after 2 seconds
+      setTimeout(() => {
+        setShowCopied(false);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy: ', err);
+    });
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
@@ -66,11 +85,11 @@ export default function GamePage() {
         <div className="absolute bottom-0 left-0 p-8 z-20">
           <div className="flex flex-col gap-4">
             <div className="text-5xl font-bold flex items-center">
-              <span className="text-white">P</span>
-              <span className="text-red-600 text-6xl">O</span>
-              <span className="text-white">RTAL</span>
+              <span className="text-white">h</span>
+              <span className="text-red-600 text-6xl">A</span>
+              <span className="text-white">LF</span>
             </div>
-            <div className="bg-red-700 text-white px-3 py-1 w-fit font-bold">REVOLUTION</div>
+            <div className="bg-red-700 text-white px-3 py-1 w-fit font-bold">LIVE 3</div>
           </div>
         </div>
       </div>
@@ -86,7 +105,7 @@ export default function GamePage() {
         
         <div className="flex gap-6">
           <div className="text-sm">
-            <div className="text-gray-400">LAST PLAYED</div>
+            <div className="text-gray-400">YEAR CREATED</div>
             <div>{gameData.lastPlayed}</div>
           </div>
           
@@ -106,20 +125,30 @@ export default function GamePage() {
           </div>
         </div>
         
+        {/* Share Button */}
         <div className="ml-auto flex gap-4">
-          <button className="bg-gray-800 hover:bg-gray-700 p-2 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-            </svg>
-          </button>
-          <button className="bg-gray-800 hover:bg-gray-700 p-2 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </button>
-        </div>
+  <div className="relative">
+    <button 
+      className="bg-gray-800 hover:bg-gray-700 p-2 rounded"
+      onClick={() => {
+        navigator.clipboard.writeText(window.location.href);
+        setShowCopied(true);
+        setTimeout(() => setShowCopied(false), 2000);
+      }}
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+      </svg>
+    </button>
+    
+    {showCopied && (
+      <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-1 rounded text-sm whitespace-nowrap animate-[fadeInOut_2s_ease-in-out]">
+        Copied!
+        <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-t-[6px] border-t-black/80 border-r-[6px] border-r-transparent"></div>
+      </div>
+    )}
+  </div>
+</div>
       </div>
       
       {/* Cloud sync status */}
@@ -197,7 +226,7 @@ export default function GamePage() {
       </div>
       
       {/* Footer with menu and controls */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-black p-2 flex justify-between">
+      {/* <footer className="fixed bottom-0 left-0 right-0 bg-black p-2 flex justify-between">
         <div className="flex items-center gap-2">
           <div className="bg-gray-700 px-2 py-1 rounded text-sm">STEAM</div>
           <div className="text-gray-400">MENU</div>
@@ -213,7 +242,7 @@ export default function GamePage() {
             <span className="text-gray-400">BACK</span>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }
