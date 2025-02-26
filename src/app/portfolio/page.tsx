@@ -205,7 +205,7 @@ export default function PortfolioSteamPage() {
 
         {/* Portfolio updates - updated with Steam-like card styling */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {portfolioUpdates.map((item, index) => (
+          {/* {portfolioUpdates.map((item, index) => (
             <a 
               key={index} 
               href={item.link} 
@@ -226,7 +226,7 @@ export default function PortfolioSteamPage() {
                 <p className="text-gray-300 text-sm">{item.date}</p>
               </div>
             </a>
-          ))}
+          ))} */}
         </div>
       </main>
 
