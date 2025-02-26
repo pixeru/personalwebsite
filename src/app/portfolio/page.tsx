@@ -21,7 +21,7 @@ const portfolioProjects: Project[] = [
     projectUrl: "https://www.resume.id/works/c97f0b654d1de643",
     completionDate: "2023-11",
     technologies: ["Unity", "C#", "Blender", "3D Modeling"],
-    status: "completed"
+    status: "ongoing"
   },
   {
     title: "MeasureMaster",
@@ -39,7 +39,7 @@ const portfolioProjects: Project[] = [
     projectUrl: "https://www.resume.id/works/7954859f0604a854",
     completionDate: "2022-12",
     technologies: ["C++", "Win32 API", "System Security"],
-    status: "ongoing"
+    status: "completed"
   },
   {
     title: "Raspberry Pi Door Lock",
@@ -64,7 +64,7 @@ const portfolioUpdates = [
     category: "BLOG POST",
     title: "GAME DEV JOURNEY",
     date: "February 10, 2024",
-    imageUrl: "/pfp.jpg",
+    imageUrl: "/GlobalGameJam2025.jpg",
     link: "https://bit.ly/joshuamedium"
   },
   {
