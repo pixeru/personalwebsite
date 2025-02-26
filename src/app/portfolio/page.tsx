@@ -183,65 +183,55 @@ export default function PortfolioSteamPage() {
 
       {/* Main content area */}
       <main className="px-6 py-4">
-        {/* Featured project */}
-        <div className="mb-8 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-transparent z-10"></div>
-          <img 
-            src={portfolioProjects[0].imageUrl} 
-            alt={portfolioProjects[0].title} 
-            className="w-full h-64 object-cover rounded"
-          />
-          <div className="absolute bottom-0 left-0 p-6 z-20">
-            <h2 className="text-4xl font-bold mb-2">{portfolioProjects[0].title.toUpperCase()}</h2>
-            <p className="text-gray-300 mb-2 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 mr-2">
-                <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clipRule="evenodd" />
-              </svg>
-              COMPLETED: {portfolioProjects[0].completionDate}
-            </p>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {portfolioProjects[0].technologies?.map((tech, i) => (
-                <span key={i} className="bg-blue-800/80 px-2 py-1 rounded text-xs font-semibold">
-                  {tech}
-                </span>
-              ))}
-            </div>
-            <a 
-              href={portfolioProjects[0].projectUrl} 
-              target="_blank" 
-              className="mt-1 inline-block bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-2 rounded text-white font-bold"
-            >
-              VIEW DETAILS
-            </a>
-          </div>
-        </div>
+        
 
         {/* Projects carousel */}
         <div className="mb-12">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-gray-800">
-            {portfolioProjects.map((project, index) => (
-              <a 
-                key={index} 
-                href={project.projectUrl} 
-                target="_blank" 
-                className="flex-none w-64 group"
-              >
-                <div className="relative h-36 mb-2 overflow-hidden rounded">
-                  <img 
-                    src={project.imageUrl} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  {index === 0 && (
-                    <div className="absolute top-0 right-0 bg-blue-600 text-white px-2 py-1 text-xs">
-                      FEATURED
+          {portfolioProjects.map((project, index) => (
+            <a 
+              key={index} 
+              href={project.projectUrl} 
+              target="_blank" 
+              className={`flex-none group ${index === 0 ? 'w-96' : 'w-64'}`}
+            >
+              <div className={`relative ${index === 0 ? 'h-[450px]' : 'h-[400px]'} mb-2 overflow-hidden rounded`}>
+                <img 
+                  src={project.imageUrl} 
+                  alt={project.title} 
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                {index === 0 && (
+                  <div className="absolute top-0 right-0 bg-blue-600 text-white px-3 py-1.5 text-sm font-bold">
+                    FEATURED
+                  </div>
+                )}
+                {index === 0 && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {project.technologies?.map((tech, techIndex) => (
+                        <span key={techIndex} className="bg-blue-600/80 text-xs px-2 py-0.5 rounded">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
-                  )}
+                  </div>
+                )}
+              </div>
+              <h3 className={`font-bold ${index === 0 ? 'text-xl' : 'text-lg'}`}>{project.title}</h3>
+              <p className="text-sm text-gray-400">
+                {index === 0 ? project.description : `${project.description.substring(0, 50)}...`}
+              </p>
+              {index === 0 && (
+                <div className="mt-2 flex items-center text-blue-400 text-sm">
+                  <span>View Project</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </div>
-                <h3 className="font-bold text-lg">{project.title}</h3>
-                <p className="text-sm text-gray-400">{project.description.substring(0, 50)}...</p>
-              </a>
-            ))}
+              )}
+            </a>
+          ))}
           </div>
         </div>
 
