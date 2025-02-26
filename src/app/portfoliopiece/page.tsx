@@ -9,7 +9,7 @@ export default function GamePage() {
   const projectData = {
     title: "PORTAL REVOLUTION",
     yearCreated: "2024",
-    toolsUsed: "Unreal Engine",
+    // toolsUsed: "Unreal Engine",
     achievements: "2/21",
     projectStatusIcon: "completed",
     projectStatus: "COMPLETED"
@@ -110,10 +110,10 @@ const handleShare = () => {
             <div>{projectData.yearCreated}</div>
           </div>
           
-          <div className="text-sm">
+          {/* <div className="text-sm">
             <div className="text-gray-400">TOOLS USED</div>
             <div>{projectData.toolsUsed}</div>
-          </div>
+          </div> */}
           
           {/* <div className="text-sm">
             <div className="text-gray-400">ACHIEVEMENTS</div>
