@@ -107,51 +107,54 @@ export default function PortfolioSteamPage() {
     switch (condition) {
       case 'clear':
         return (
-          <div className="weather-icon weather-clear">
-            <div className="sun">
-              <div className="rays"></div>
+          <div className="relative w-10 h-10">
+            <div className="absolute inset-0 bg-yellow-400 rounded-full"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-yellow-500 border-t-transparent border-l-transparent border-r-transparent rounded-full animate-spin"></div>
             </div>
           </div>
         );
       case 'clouds':
         return (
-          <div className="weather-icon weather-clouds">
-            <div className="cloud"></div>
-            <div className="cloud small"></div>
+          <div className="relative w-10 h-10">
+            <div className="absolute w-8 h-4 bg-gray-300 rounded-full bottom-0 left-1"></div>
+            <div className="absolute w-5 h-3 bg-gray-300 rounded-full top-0 right-1"></div>
           </div>
         );
       case 'rain':
         return (
-          <div className="weather-icon weather-rain">
-            <div className="cloud"></div>
-            <div className="rain"></div>
+          <div className="relative w-10 h-10">
+            <div className="absolute w-8 h-4 bg-gray-300 rounded-full top-0 left-1"></div>
+            <div className="absolute w-1 h-4 bg-blue-400 bottom-0 left-3 animate-bounce"></div>
+            <div className="absolute w-1 h-4 bg-blue-400 bottom-0 left-5 animate-bounce delay-100"></div>
           </div>
         );
       case 'snow':
         return (
-          <div className="weather-icon weather-snow">
-            <div className="cloud"></div>
-            <div className="snow"></div>
+          <div className="relative w-10 h-10">
+            <div className="absolute w-8 h-4 bg-gray-300 rounded-full top-0 left-1"></div>
+            <div className="absolute w-2 h-2 bg-white rounded-full bottom-0 left-3 animate-bounce"></div>
+            <div className="absolute w-2 h-2 bg-white rounded-full bottom-0 left-6 animate-bounce delay-150"></div>
           </div>
         );
       case 'storm':
         return (
-          <div className="weather-icon weather-storm">
-            <div className="cloud"></div>
-            <div className="lightning"></div>
+          <div className="relative w-10 h-10">
+            <div className="absolute w-8 h-4 bg-gray-500 rounded-full top-0 left-1"></div>
+            <div className="absolute w-2 h-5 bg-yellow-400 transform rotate-45 bottom-0 left-4"></div>
           </div>
         );
       default:
         return (
-          <div className="weather-icon">
-            <div className="cloud"></div>
+          <div className="relative w-10 h-10">
+            <div className="absolute w-8 h-4 bg-gray-300 rounded-full top-2 left-1"></div>
           </div>
         );
     }
   };
 
   return (
-    <div className="steam-big-picture min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#171717] text-white overflow-x-hidden font-sans">
       {/* Header with time and social links */}
       <header className="flex justify-between items-center px-6 py-3">
         <h1 className="text-2xl font-bold">Portfolio Showcase</h1>
@@ -215,7 +218,7 @@ export default function PortfolioSteamPage() {
 
         {/* Projects carousel */}
         <div className="mb-12">
-          <div className="flex space-x-4 overflow-x-auto pb-4">
+          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-gray-800">
             {portfolioProjects.map((project, index) => (
               <a 
                 key={index} 
@@ -321,35 +324,6 @@ export default function PortfolioSteamPage() {
           </div>
         </div>
       </footer>
-
-      {/* Add CSS for Steam Big Picture look */}
-      <style jsx global>{`
-        .steam-big-picture {
-          font-family: Arial, sans-serif;
-          background: #171717;
-          color: white;
-          overflow-x: hidden;
-        }
-
-        /* Custom scrollbar for Steam look */
-        ::-webkit-scrollbar {
-          width: 10px;
-          height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: #2a2a2a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: #3d6a96;
-          border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: #4983bd;
-        }
-      `}</style>
     </div>
   );
 }
