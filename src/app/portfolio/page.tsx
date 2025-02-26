@@ -126,7 +126,7 @@ export default function PortfolioSteamPage() {
   };
   
   return (
-    <div className="min-h-screen text-white relative">
+    <div className="min-h-screen text-white relative overflow-x-hidden">
       {/* Non-parallax background with blur effect */}
       <div 
         className="absolute inset-0 w-full h-full bg-[url('/veiled_truth.png')] bg-cover bg-center blur-xl opacity-30 scale-110 transform-gpu"
@@ -224,7 +224,7 @@ export default function PortfolioSteamPage() {
             </button>
             
             {showCopied && (
-              <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-1 rounded text-sm whitespace-nowrap animate-[fadeInOut_2s_ease-in-out]">
+              <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-1 rounded text-sm whitespace-nowrap">
                 Copied!
                 <div className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-t-[6px] border-t-black/80 border-r-[6px] border-r-transparent"></div>
               </div>
@@ -232,22 +232,6 @@ export default function PortfolioSteamPage() {
           </div>
         </div>
       </div>
-      
-      {/* Status bar */}
-      {/* <div className="flex justify-center py-2 bg-gray-800/90 backdrop-blur-sm text-sm">
-        <div className="flex items-center gap-2 text-gray-300">
-          {portfolioData.projectStatusIcon === "completed" ? (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-green-500">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 text-blue-500">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          )}
-          <span>PORTFOLIO STATUS: ACTIVE DEVELOPMENT</span>
-        </div>
-      </div> */}
       
       {/* Navigation tabs */}
       <div className="flex justify-center py-2 bg-gray-900/80 backdrop-blur-sm z-10" id="projects">
@@ -259,20 +243,15 @@ export default function PortfolioSteamPage() {
               onClick={() => setActiveTab(tab)}
             >
               {tab}
-              {/* {tab === "CONTACT" && (
-                <span className="ml-2 bg-green-500 text-white text-xs px-1.5 rounded-full">
-                  ✓
-                </span>
-              )} */}
             </button>
           ))}
         </div>
       </div>
 
       {/* Main content area */}
-      <main className="px-6 py-4 relative z-10">
+      <main className="px-6 py-4 relative z-10 overflow-x-hidden">
         {/* Projects carousel */}
-        <div className="mb-12">
+        <div className="mb-12 overflow-x-hidden">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-800">
           {portfolioProjects.map((project, index) => (
             <a 
@@ -336,7 +315,7 @@ export default function PortfolioSteamPage() {
 
         {/* Portfolio updates (like Steam news) */}
         <h2 className="text-xl mb-4 font-bold">Updates</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 max-w-full">
           {portfolioUpdates.map((item, index) => (
             <a 
               key={index} 
