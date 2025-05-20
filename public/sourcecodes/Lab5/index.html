@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!-- saved from url=(0231)https://alt-5eac5bdd7f7c4.blackboard.com/bbcswebdav/pid-10369812-dt-asiobject-rid-24161906_1/courses/CMPT-2361-001_16843_202310/Lab_05/Polyhedra.html?one_hash=2F37F8605C4E81EE65FA7F1F09A7C02D&f_hash=A6FE4F004D3623D971BE13B7A9516118 -->
+<html><!--
+--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Lab 5</title>
+
+<script src="./Lab 5_files/glsim.js.download"></script>  <!-- load the OpenGL 1.1 simulation code -->
+<script src="./Lab 5_files/polyhedra.js.download"></script>  <!-- IFS models of various standard polyhedra -->
+
+<script>
+
+    "use strict";
+    
+    const polyhedron = [ // Polyhedron IFS models defined in polyhedra.js
+        cubeIFS,
+        dodecahedronIFS,
+        icosahedronIFS,
+        octahedronIFS,
+        rhombicDodecahedronIFS,
+        socerBallIFS,
+        stellatedDodecahedronIFS,
+        stellatedIcosahedronIFS,
+        stellatedOctahedronIFS,
+        tetrahedronIFS,
+        truncatedIcosahedronIFS,
+        truncatedRhombicDodecahedronIFS
+    ];
+
+    let camera;   // For setting up the view and implementing rotation by mouse.
+
+    // -------------------------- TODO: Complete this section ----------------------------------
+    
+    let pointCloud;  // A Float32Array containing the data for a cloud of points.
+    
+    /**
+     * Draws a large number of random points inside the sphere of radius 8.
+     */
+     function drawPointCloud() {
+        // Create point cloud if it doesn't exist yet
+        if (!pointCloud) {
+            const coords = [];
+            const pointCt = 10000; // Use 10,000 points as mentioned in the example
+            
+            let pointsAdded = 0;
+            while (pointsAdded < pointCt) {
+                // Generate random points in a cube from -8 to 8
+                const x = 16 * Math.random() - 8;
+                const y = 16 * Math.random() - 8;
+                const z = 16 * Math.random() - 8;
+                
+                // Check if the point is inside the sphere (x^2 + y^2 + z^2 < 64)
+                if (x*x + y*y + z*z < 64) {
+                    coords.push(x, y, z);
+                    pointsAdded++;
+                }
+            }
+            
+            // Create the Float32Array from the coordinates
+            pointCloud = new Float32Array(coords);
+        }
+        
+        // Draw the point cloud using GL_POINTS primitive
+        glDisable(GL_LIGHTING);
+        glColor3f(1, 1, 1);
+        glPointSize(2);
+        glVertexPointer(3, GL_FLOAT, 0, pointCloud);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glDrawArrays(GL_POINTS, 0, pointCloud.length / 3);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glEnable(GL_LIGHTING);
+    } // end drawPointCloud()
+    
+    
+    
+    /**
+     * Draws the selected polyhedron in the selected style.  The style parameter 
+     * is one of "faces", "wire", or "both".  If style is "faces" or "both", the faces 
+     * are drawing using glDrawArrays with the GL_TRIANGLES primitive.  If style is
+     * "wire" or "both", then the wireframe is drawing using glDrawArrays with the
+     * GL_LINES primitive.  The faces are drawn using polygonOffset to make the
+     * wireframe look OK when both are drawn.
+     *     The poly parameter is one of the polyhedron models from polyhedra.js.  The
+     * model is a JavaScript object with the following properties:
+     *     poly.vertices -- an array of vertices where each vertex is given
+     *                           as an array of three numbers.
+     *     poly.faces -- an array of faces, where each face is an array of integers.
+     *                   The integers in the array are indices into the array of
+     *                   vertices, and they give the vertices of the face in 
+     *                   counterclockwise order as seen from the outside.
+     *     poly.faceNormals -- an array of normal vectors, one for each face.
+     *                   Each normal is given as an array of three numbers.
+     * These properties are not in the correct form for use with glDrawArrays.
+     * The correct data arrays are created and added to the object as additional
+     * properties, (if that has not already been done).
+     */
+    function drawPolyhedron( poly, style ) {
+        if ( !poly.scale )
+            setScale(poly);
+        glScalef(poly.scale, poly.scale, poly.scale);
+        if ( style == "faces" || style == "both") {
+            if ( ! poly.faceCoords )
+                makeFaceData(poly);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,poly.faceCoords);
+            glNormalPointer(GL_FLOAT,0,poly.normalCoords);
+            glColor3f(1,1,0);
+            glPolygonOffset(1,1);
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glDrawArrays(GL_TRIANGLES,0,poly.faceCoords.length/3);
+            glDisable(GL_POLYGON_OFFSET_FILL);
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_NORMAL_ARRAY);
+            glDisableClientState(GL_COLOR_ARRAY);
+        }
+        if ( style == "wire" || style == "both") {
+            if ( ! poly.lineCoords )
+                makeLineCoords(poly);
+            glDisable(GL_LIGHTING);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,poly.lineCoords);
+            glLineWidth(2);
+            if ( style == "both")
+                glColor3f(0,0,0);
+            else
+                glColor3f(1,1,1);
+            glDrawArrays(GL_LINES,0,poly.lineCoords.length/3);
+            glEnable(GL_LIGHTING);
+            glDisableClientState(GL_VERTEX_ARRAY);
+        }
+    }
+    
+    /**
+     * Calculates a scale to the polyhedra to get them to a reasonable size. Finds
+     * the maximum length of all the vertices in the polyhedron. Then, sets 
+     * the scale factor to 8/maxLength using poly.scale = 8.0 / maxLength;
+     * The length of a vertex with coordinates (x,y,z) is 
+     * Math.sqrt(x**2 + y**2 + z**2). Length here really means the distance of 
+     * the vertex from (0,0,0).
+     */
+     function setScale(poly) {
+        let maxLength = 0;
+        
+        // Iterate through all vertices to find the maximum distance from origin
+        for (let i = 0; i < poly.vertices.length; i++) {
+            const vertex = poly.vertices[i];
+            // Calculate length (distance from origin)
+            const length = Math.sqrt(vertex[0]**2 + vertex[1]**2 + vertex[2]**2);
+            
+            // Update maxLength if this vertex is farther
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        }
+        
+        // Set the scale factor to 8.0 / maxLength
+        poly.scale = 8.0 / maxLength;
+    }
+
+    
+    /**
+     * Builds the poly.lineCoords array based on information in poly.faces and
+     * poly.vertices. Start with an empty array named coords and use the array's 
+     * push() function to add elements to it. Edges of a face connect vertex number
+     * j to vertex number j+1 of that face, except for the last edge, which connects
+     * back to vertex number zero.
+     */
+    function makeLineCoords(poly) {
+        const coords = [];
+        
+        // Iterate through each face
+        for (let faceIndex = 0; faceIndex < poly.faces.length; faceIndex++) {
+            const face = poly.faces[faceIndex];
+            
+            // For each edge in the face
+            for (let i = 0; i < face.length; i++) {
+                // Get the current vertex index and the next one (wrapping around to 0 for the last edge)
+                const vertexIndex1 = face[i];
+                const vertexIndex2 = face[(i + 1) % face.length];
+                
+                // Get the actual vertex coordinates
+                const vertex1 = poly.vertices[vertexIndex1];
+                const vertex2 = poly.vertices[vertexIndex2];
+                
+                // Add the line segment coordinates (first vertex then second vertex)
+                coords.push(vertex1[0], vertex1[1], vertex1[2]);
+                coords.push(vertex2[0], vertex2[1], vertex2[2]);
+            }
+        }
+
+        
+        // Once you have added elements to array coords, you can set poly.lineCoords
+        // to contain the same data like this:
+        poly.lineCoords = new Float32Array(coords);
+    }
+    
+    /**
+     * Builds the poly.faceCoords and poly.normalCoords arrays based on information
+     * in poly.faces, poly.vertices, and poly.faceNormals. Start with empty arrays 
+     * named faceCoords and normalCoords. Use the array's push() function to add 
+     * elements to these empty arrays. The vertices of the triangles are vertex zero,
+     * vertex j and vertex j+1, for all values of j from 1 to one less than the maximum
+     * vertex number.
+     */
+    function makeFaceData(poly) {
+        const faceCoords = [];
+        const normalCoords = [];
+        
+        // Iterate through each face
+        for (let faceIndex = 0; faceIndex < poly.faces.length; faceIndex++) {
+            const face = poly.faces[faceIndex];
+            const normal = poly.faceNormals[faceIndex];
+            
+            // If face has more than 3 vertices, we need to triangulate it
+            if (face.length > 3) {
+                // For each triangle: use vertex 0, j, and j+1
+                for (let j = 1; j < face.length - 1; j++) {
+                    // Get the vertex indices for this triangle
+                    const vertexIndex0 = face[0];
+                    const vertexIndexJ = face[j];
+                    const vertexIndexJPlus1 = face[j + 1];
+                    
+                    // Get the actual vertices
+                    const vertex0 = poly.vertices[vertexIndex0];
+                    const vertexJ = poly.vertices[vertexIndexJ];
+                    const vertexJPlus1 = poly.vertices[vertexIndexJPlus1];
+                    
+                    // Add the triangle vertices to faceCoords
+                    faceCoords.push(
+                        vertex0[0], vertex0[1], vertex0[2],
+                        vertexJ[0], vertexJ[1], vertexJ[2],
+                        vertexJPlus1[0], vertexJPlus1[1], vertexJPlus1[2]
+                    );
+                    
+                    // Add the same normal vector for each vertex of the triangle
+                    normalCoords.push(
+                        normal[0], normal[1], normal[2],
+                        normal[0], normal[1], normal[2],
+                        normal[0], normal[1], normal[2]
+                    );
+                }
+            } else {
+                // For triangular faces, just add the vertices directly
+                const vertex0 = poly.vertices[face[0]];
+                const vertex1 = poly.vertices[face[1]];
+                const vertex2 = poly.vertices[face[2]];
+                
+                // Add the triangle vertices to faceCoords
+                faceCoords.push(
+                    vertex0[0], vertex0[1], vertex0[2],
+                    vertex1[0], vertex1[1], vertex1[2],
+                    vertex2[0], vertex2[1], vertex2[2]
+                );
+                
+                // Add the same normal vector for each vertex of the triangle
+                normalCoords.push(
+                    normal[0], normal[1], normal[2],
+                    normal[0], normal[1], normal[2],
+                    normal[0], normal[1], normal[2]
+                );
+            }
+        }
+
+
+        
+        // Once you have added elements to arrays faceCoords and normalCoords, 
+        // you can set poly.faceCoords and poly.normalCoords to contain the same
+        // data like this:
+        poly.faceCoords = new Float32Array(faceCoords);
+        poly.normalCoords = new Float32Array(normalCoords);
+    }
+
+    
+    //---------------- display() just sets up the view, the calls drawPolyhedron()  ----
+    
+    function display() {
+        glClearColor(0,0,0,1); // background color is black
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+        camera.apply(); // Let the camera set up the view and projection.
+        
+        let object = Number( document.getElementById("polyChoice").value );
+        if (object == 12)
+        
+            drawPointCloud();
+        else {
+            let poly = polyhedron[ object ];
+            let style = document.getElementById("styleChoice").value;
+            drawPolyhedron( poly, style );
+         }
+    }    
+    
+    // ------------------------- initialization functions -----------------------------------
+    
+    /**
+     *  initGL() is called just once, by main(), to do initialization of OpenGL state
+     *  and other global state.
+     */
+    function initGL() {
+        glClearColor(0.0, 0.0, 0.0, 1.0); // background color
+        glEnable(GL_DEPTH_TEST);      // Required for 3D drawing, not usually for 2D.
+        glEnable(GL_LIGHTING);        // Enable lighting.
+        glEnable(GL_LIGHT0);          // Turn on a light.  By default, shines from direction of viewer.
+        glEnable(GL_NORMALIZE);       // OpenGL will make all normal vectors into unit normals
+        glEnable(GL_COLOR_MATERIAL);  // Material ambient and diffuse colors can be set by glColor*    
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);  // Make OpenGL draw back sides of triangles.
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]); // Add some ambient light.
+    }
+    
+    function init() {  // Called  when the page has loaded.
+        try {
+            glsimUse("glcanvas"); // OpenGL will draw to the canvas with id="glcanvas".
+        }
+        catch (e) {
+            document.getElementById("canvas-holder").innerHTML =
+                "Sorry, an error occured:<br>" + e;
+            return;
+        }
+        initGL();
+        camera = new Camera();
+        camera.setScale(10);
+        camera.lookAt(0,0,20);
+        camera.installTrackball(display);
+        display();  // Call display() when the page is first loaded.
+     }
+
+    window.onload = init;
+</script>
+
+</head>
+
+<body cz-shortcut-listen="true">
+
+<h3>Lab 5</h3>
+
+<noscript>
+<p><b>Sorry, this page requires JavaScript!</b></p>
+</noscript>
+
+
+<p>Drag on the drawing with your mouse or finger to rotate.<br>
+Home or return key restores original viewpoint.</p>
+
+<p><b>Select the Object to be Drawn:</b>
+   <select id="polyChoice" onchange="display()">
+      <option value="12">Point Cloud</option>
+      <option value="0">Cube</option>
+      <option value="1">Dodecahedron</option>
+      <option value="2">Icosahedron</option>
+      <option value="3">Octahedron</option>
+      <option value="4">Rhombic Dodecahedron</option>
+      <option value="5">Soccer Ball</option>
+      <option value="6">Stellated Dodecahedron</option>
+      <option value="7">Stellated Icosahedron</option>
+      <option value="8">Stellated Octahedron</option>
+      <option value="9">Tetrahedron</option>
+      <option value="10">Truncated Icosahedron</option>
+      <option value="11">Truncated Rhombic Dodecahedron</option>
+   </select>
+</p>
+<p><b>Select the View Style for Polyhedra:</b>
+   <select id="styleChoice" onchange="display()">
+      <option value="faces">Show the faces only</option>
+      <option value="wire">Show wireframe only</option>
+      <option value="both" selected="">Draw Both</option>
+   </select>
+</p><div id="canvas-holder">
+   <!-- You can set the size of the drawing area in the next line -->
+   <canvas id="glcanvas" width="600" height="600"></canvas>
+</div>
+
+
+
+</body></html>

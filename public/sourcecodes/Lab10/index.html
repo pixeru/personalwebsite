@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mandelbrot Fractal in WebGL</title>
+  <script type="text/javascript">
+    "use strict";
+
+    const vertexShaderSource = `
+      precision highp float;
+      attribute vec2 a_Position;
+      void main() {
+          gl_Position = vec4(a_Position, 0.0, 1.0);
+      }
+    `;
+
+    const fragmentShaderSource = `
+      precision highp float;
+      uniform vec2 u_zoomCenter;
+      uniform float u_zoomSize;
+      uniform int u_maxIterations;
+
+      vec2 f(vec2 x, vec2 c) {
+          return mat2(x,-x.y,x.x)*x + c;
+      }
+
+      vec3 palette(float t, vec3 c1, vec3 c2, vec3 c3, vec3 c4) {
+          float x = 1.0 / 3.0;
+          if (t < x) return mix(c1, c2, t/x);
+          else if (t < 2.0 * x) return mix(c2, c3, (t - x)/x);
+          else if (t < 3.0 * x) return mix(c3, c4, (t - 2.0*x)/x);
+          return c4;
+      }
+
+      void main() {
+          vec2 uv = gl_FragCoord.xy / vec2(800.0, 800.0);
+          vec2 c = u_zoomCenter + (uv * 4.0 - vec2(2.0)) * (u_zoomSize / 4.0);
+          vec2 x = vec2(0.0);
+          bool escaped = false;
+          int iterations = 0;
+          for (int i = 0; i < 512; i++) {
+              if (i > u_maxIterations) break;
+              iterations = i;
+              x = f(x, c);
+              if (length(x) > 2.0) {
+                  escaped = true;
+                  break;
+              }
+          }
+          gl_FragColor = escaped 
+            ? vec4(palette(float(iterations) / float(u_maxIterations),
+               vec3(0.02, 0.02, 0.03),
+               vec3(0.1, 0.2, 0.3),
+               vec3(0.0, 0.3, 0.2),
+               vec3(0.0, 0.5, 0.8)), 1.0) 
+            : vec4(vec3(0.3, 0.5, 0.8), 1.0);
+      }
+    `;
+
+    let gl, program;
+
+    function createProgram(gl, vsSource, fsSource) {
+        const vs = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vs, vsSource);
+        gl.compileShader(vs);
+        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
+            throw new Error("Vertex Shader Error: " + gl.getShaderInfoLog(vs));
+        }
+
+        const fs = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fs, fsSource);
+        gl.compileShader(fs);
+        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+            throw new Error("Fragment Shader Error: " + gl.getShaderInfoLog(fs));
+        }
+
+        const prog = gl.createProgram();
+        gl.attachShader(prog, vs);
+        gl.attachShader(prog, fs);
+        gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+            throw new Error("Program Link Error: " + gl.getProgramInfoLog(prog));
+        }
+
+        return prog;
+    }
+
+    function draw() {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+
+    function init() {
+        const canvas = document.getElementById("webglcanvas");
+        gl = canvas.getContext("webgl");
+        if (!gl) {
+            alert("WebGL not supported");
+            return;
+        }
+
+        program = createProgram(gl, vertexShaderSource, fragmentShaderSource);
+        gl.useProgram(program);
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        const positions = new Float32Array([
+            -1, -1,  1, -1,  -1, 1,   1, 1
+        ]);
+        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+        const posAttrib = gl.getAttribLocation(program, "a_Position");
+        gl.enableVertexAttribArray(posAttrib);
+        gl.vertexAttribPointer(posAttrib, 2, gl.FLOAT, false, 0, 0);
+
+        // Uniforms
+        const zoomCenter = gl.getUniformLocation(program, "u_zoomCenter");
+        const zoomSize = gl.getUniformLocation(program, "u_zoomSize");
+        const maxIter = gl.getUniformLocation(program, "u_maxIterations");
+
+        gl.uniform2f(zoomCenter, -0.5, 0.0);
+        gl.uniform1f(zoomSize, 2.5);
+        gl.uniform1i(maxIter, 200);
+
+        draw();
+    }
+
+    window.onload = init;
+  </script>
+</head>
+<body>
+  <h2>Mandelbrot Set in WebGL</h2>
+  <canvas id="webglcanvas" width="800" height="800"></canvas>
+</body>
+</html>
