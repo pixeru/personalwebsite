@@ -26,10 +26,18 @@ const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
 ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
-const options = { next: { revalidate: 30 } };
 
-export async function IndexPage() {
+// Server function for fetching posts (for App Router)
+async function fetchPosts() {
+  const options = { next: { revalidate: 30 } };
+  return await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+}
+
+// Alternative: Create a separate server component for posts
+export async function PostsList() {
+  const options = { next: { revalidate: 30 } };
   const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+  
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8">
       <h1 className="text-4xl font-bold mb-8">Posts</h1>
@@ -46,7 +54,6 @@ export async function IndexPage() {
     </main>
   );
 }
-
 
 // Content data
 const portfolioProjects: Project[] = [
@@ -119,10 +126,31 @@ const portfolioUpdates = [
   }
 ];
 
-export default async function PortfolioSteamPage() {
+// Client component for the portfolio page
+interface PortfolioSteamPageProps {
+  posts?: SanityDocument[];
+}
+
+export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPageProps) {
   const [activeTab, setActiveTab] = useState("PROJECTS");
   const [currentTime, setCurrentTime] = useState("");
   const [showCopied, setShowCopied] = useState(false);
+  const [clientPosts, setClientPosts] = useState<SanityDocument[]>(posts);
+  
+  // Fetch posts on client side if not provided via props
+  useEffect(() => {
+    if (posts.length === 0) {
+      const fetchPosts = async () => {
+        try {
+          const fetchedPosts = await client.fetch<SanityDocument[]>(POSTS_QUERY);
+          setClientPosts(fetchedPosts);
+        } catch (error) {
+          console.error('Error fetching posts:', error);
+        }
+      };
+      fetchPosts();
+    }
+  }, [posts]);
   
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -160,8 +188,6 @@ export default async function PortfolioSteamPage() {
     lastUpdated: "February 25, 2024",
     projectStatusIcon: "ongoing"
   };
-
-  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
   
   return (
     <div className="h-screen text-white relative overflow-x-hidden overflow-y-auto">
@@ -291,7 +317,7 @@ export default async function PortfolioSteamPage() {
         {/* Projects carousel */}
         <div className="mb-12">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-800">
-          {posts.map((post, index) => (
+          {clientPosts.map((post, index) => (
             <Link 
               key={post._id} 
               href={`/${post.slug.current}`}
