@@ -4,7 +4,7 @@ import { createClient } from "next-sanity";
 import Link from "next/link";
 import { type SanityDocument } from "next-sanity";
 
-const client = createClient({
+export const client = createClient({
   projectId: "slabvdrx",
   dataset: "production",
   apiVersion: "2024-01-01",
