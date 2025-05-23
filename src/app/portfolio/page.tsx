@@ -25,7 +25,13 @@ interface Project {
 const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+]|order(publishedAt desc)[0...12]{
+  _id, 
+  title, 
+  slug, 
+  publishedAt,
+  "imageUrl": mainImage.asset->url
+}`;
 
 // Server function for fetching posts (for App Router)
 async function fetchPosts() {
@@ -318,6 +324,7 @@ export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPagePro
         {/* Projects carousel */}
         <div className="mb-12">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-800">
+            {/* PROJECTS LIST */}
           {clientPosts.map((post, index) => (
             <Link 
               key={post._id} 
