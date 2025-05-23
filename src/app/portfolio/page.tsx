@@ -1,5 +1,15 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { createClient } from "next-sanity";
+import Link from "next/link";
+import { type SanityDocument } from "next-sanity";
+
+export const client = createClient({
+  projectId: "slabvdrx",
+  dataset: "production",
+  apiVersion: "2024-01-01",
+  useCdn: false,
+});
 
 // Project data structure
 interface Project {
@@ -11,6 +21,73 @@ interface Project {
   technologies?: string[];
   status?: "completed" | "ongoing" | "planned";
 }
+
+const POSTS_QUERY = `*[
+  _type == "post"
+  && defined(slug.current)
+]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+const options = { next: { revalidate: 30 } };
+
+export default async function IndexPage() {
+  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+  return (
+    <main className="container mx-auto min-h-screen max-w-3xl p-8">
+      <h1 className="text-4xl font-bold mb-8">Posts</h1>
+      <ul className="flex flex-col gap-y-4">
+        {posts.map((post) => (
+          <li className="hover:underline" key={post._id}>
+            <Link href={`/${post.slug.current}`}>
+              <h2 className="text-xl font-semibold">{post.title}</h2>
+              <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
+}
+
+
+
+// // Content data
+// const portfolioProjects: Project[] = [
+//   {
+//     title: "Veiled Truth",
+//     description: "A 3D Detective-Mystery Anime Game created using Unity",
+//     imageUrl: "/veiled_truth.png",
+//     projectUrl: "https://www.resume.id/works/c97f0b654d1de643",
+//     completionDate: "2023-11",
+//     technologies: ["Unity", "C#", "Blender", "3D Modeling"],
+//     status: "ongoing"
+//   },
+//   {
+//     title: "MeasureMaster",
+//     description: "Published asset for measuring distances in 3D/2D space",
+//     imageUrl: "/measuremaster.png",
+//     projectUrl: "https://assetstore.unity.com/packages/tools/utilities/measuremaster-294420",
+//     completionDate: "2023-08",
+//     technologies: ["Unity", "C#", "Asset Store"],
+//     status: "completed"
+//   },
+//   {
+//     title: "EXIT Anti Cheat",
+//     description: "Advanced security system to prevent shortcut exploits",
+//     imageUrl: "/exit_ac.jpg",
+//     projectUrl: "https://www.resume.id/works/7954859f0604a854",
+//     completionDate: "2022-12",
+//     technologies: ["C++", "Win32 API", "System Security"],
+//     status: "completed"
+//   },
+//   {
+//     title: "Raspberry Pi Door Lock",
+//     description: "IoT security system with remote access capabilities",
+//     imageUrl: "/rasp_lock.jpg",
+//     projectUrl: "https://www.resume.id/works/e3d305421fb106ef",
+//     completionDate: "2022-07",
+//     technologies: ["Python", "Raspberry Pi", "IoT", "Electronics"],
+//     status: "completed"
+//   }
+// ];
 
 // Content data
 const portfolioProjects: Project[] = [
@@ -83,7 +160,7 @@ const portfolioUpdates = [
   }
 ];
 
-export default function PortfolioSteamPage() {
+export function PortfolioSteamPage() {
   const [activeTab, setActiveTab] = useState("PROJECTS");
   const [currentTime, setCurrentTime] = useState("");
   const [showCopied, setShowCopied] = useState(false);
