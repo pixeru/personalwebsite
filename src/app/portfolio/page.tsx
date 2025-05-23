@@ -193,7 +193,7 @@ export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPagePro
     <div className="h-screen text-white relative overflow-x-hidden overflow-y-auto">
       {/* Non-parallax background with blur effect */}
       <div 
-        className="absolute inset-0 w-full h-full bg-[url('/veiled_truth.png')] bg-cover bg-center blur-xl opacity-30 scale-110 transform-gpu"
+        className="absolute inset-0 w-full h-full bg-[url('/Wallpaper_HighresScreenshot00010.png')] bg-cover bg-center blur-xl opacity-30 scale-110 transform-gpu"
         style={{ 
           zIndex: -1,
           filter: 'brightness(0.4) saturate(1.5)'
@@ -380,7 +380,7 @@ export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPagePro
         </div>
 
         {/* Portfolio updates (like Steam news) */}
-        <h2 className="text-xl mb-4 font-bold">Updates</h2>
+        {/* <h2 className="text-xl mb-4 font-bold">Updates</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 max-w-full">
           {portfolioUpdates.map((item, index) => (
             <a 
@@ -404,7 +404,7 @@ export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPagePro
               </div>
             </a>
           ))}
-        </div>
+        </div> */}
       </main>
 
       {/* Footer with navigation */}
