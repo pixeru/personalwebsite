@@ -236,6 +236,7 @@ export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPagePro
         <div className="absolute inset-0 overflow-hidden">
           <div className="w-full h-full bg-black/30 backdrop-blur-sm">
             {/* Featured project image - sharper than background */}
+            {/* TOP IMAGE */}
             <div className="w-full h-full bg-[url('/veiled_truth.png')] bg-cover bg-center opacity-90"></div>
           </div>
         </div>
