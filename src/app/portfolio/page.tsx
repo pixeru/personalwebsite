@@ -33,34 +33,6 @@ const POSTS_QUERY = `*[
   "imageUrl": mainImage.asset->url
 }`;
 
-// Server function for fetching posts (for App Router)
-async function fetchPosts() {
-  const options = { next: { revalidate: 30 } };
-  return await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
-}
-
-// Alternative: Create a separate server component for posts
-export async function PostsList() {
-  const options = { next: { revalidate: 30 } };
-  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
-  
-  return (
-    <main className="container mx-auto min-h-screen max-w-3xl p-8">
-      <h1 className="text-4xl font-bold mb-8">Posts</h1>
-      <ul className="flex flex-col gap-y-4">
-        {posts.map((post) => (
-          <li className="hover:underline" key={post._id}>
-            <Link href={`/${post.slug.current}`}>
-              <h2 className="text-xl font-semibold">{post.title}</h2>
-              <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
-  );
-}
-
 // Content data
 const portfolioProjects: Project[] = [
   {
@@ -132,31 +104,25 @@ const portfolioUpdates = [
   }
 ];
 
-// Client component for the portfolio page
-interface PortfolioSteamPageProps {
-  posts?: SanityDocument[];
-}
-
-export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPageProps) {
+// Main page component (default export only)
+export default function PortfolioSteamPage() {
   const [activeTab, setActiveTab] = useState("PROJECTS");
   const [currentTime, setCurrentTime] = useState("");
   const [showCopied, setShowCopied] = useState(false);
-  const [clientPosts, setClientPosts] = useState<SanityDocument[]>(posts);
+  const [clientPosts, setClientPosts] = useState<SanityDocument[]>([]);
   
-  // Fetch posts on client side if not provided via props
+  // Fetch posts on client side
   useEffect(() => {
-    if (posts.length === 0) {
-      const fetchPosts = async () => {
-        try {
-          const fetchedPosts = await client.fetch<SanityDocument[]>(POSTS_QUERY);
-          setClientPosts(fetchedPosts);
-        } catch (error) {
-          console.error('Error fetching posts:', error);
-        }
-      };
-      fetchPosts();
-    }
-  }, [posts]);
+    const fetchPosts = async () => {
+      try {
+        const fetchedPosts = await client.fetch<SanityDocument[]>(POSTS_QUERY);
+        setClientPosts(fetchedPosts);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+    fetchPosts();
+  }, []);
   
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -385,33 +351,6 @@ export default function PortfolioSteamPage({ posts = [] }: PortfolioSteamPagePro
           ))}
           </div>
         </div>
-
-        {/* Portfolio updates (like Steam news) */}
-        {/* <h2 className="text-xl mb-4 font-bold">Updates</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 max-w-full">
-          {portfolioUpdates.map((item, index) => (
-            <a 
-              key={index} 
-              href={item.link} 
-              target="_blank" 
-              className="relative overflow-hidden group rounded bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800/70 transition-colors duration-200 shadow-lg"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
-              <img 
-                src={item.imageUrl} 
-                alt={item.title} 
-                className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute top-0 left-0 p-2 bg-blue-900/80 text-xs font-bold z-20">
-                {item.category}
-              </div>
-              <div className="absolute bottom-0 left-0 p-4 z-20">
-                <h3 className="text-2xl font-bold mb-1">{item.title}</h3>
-                <p className="text-gray-300 text-sm">{item.date}</p>
-              </div>
-            </a>
-          ))}
-        </div> */}
       </main>
 
       {/* Footer with navigation */}
