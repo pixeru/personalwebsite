@@ -28,7 +28,7 @@ const POSTS_QUERY = `*[
 ]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
 const options = { next: { revalidate: 30 } };
 
-export default async function IndexPage() {
+export async function IndexPage() {
   const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8">
@@ -47,47 +47,6 @@ export default async function IndexPage() {
   );
 }
 
-
-
-// // Content data
-// const portfolioProjects: Project[] = [
-//   {
-//     title: "Veiled Truth",
-//     description: "A 3D Detective-Mystery Anime Game created using Unity",
-//     imageUrl: "/veiled_truth.png",
-//     projectUrl: "https://www.resume.id/works/c97f0b654d1de643",
-//     completionDate: "2023-11",
-//     technologies: ["Unity", "C#", "Blender", "3D Modeling"],
-//     status: "ongoing"
-//   },
-//   {
-//     title: "MeasureMaster",
-//     description: "Published asset for measuring distances in 3D/2D space",
-//     imageUrl: "/measuremaster.png",
-//     projectUrl: "https://assetstore.unity.com/packages/tools/utilities/measuremaster-294420",
-//     completionDate: "2023-08",
-//     technologies: ["Unity", "C#", "Asset Store"],
-//     status: "completed"
-//   },
-//   {
-//     title: "EXIT Anti Cheat",
-//     description: "Advanced security system to prevent shortcut exploits",
-//     imageUrl: "/exit_ac.jpg",
-//     projectUrl: "https://www.resume.id/works/7954859f0604a854",
-//     completionDate: "2022-12",
-//     technologies: ["C++", "Win32 API", "System Security"],
-//     status: "completed"
-//   },
-//   {
-//     title: "Raspberry Pi Door Lock",
-//     description: "IoT security system with remote access capabilities",
-//     imageUrl: "/rasp_lock.jpg",
-//     projectUrl: "https://www.resume.id/works/e3d305421fb106ef",
-//     completionDate: "2022-07",
-//     technologies: ["Python", "Raspberry Pi", "IoT", "Electronics"],
-//     status: "completed"
-//   }
-// ];
 
 // Content data
 const portfolioProjects: Project[] = [
@@ -160,7 +119,7 @@ const portfolioUpdates = [
   }
 ];
 
-export function PortfolioSteamPage() {
+export default async function PortfolioSteamPage() {
   const [activeTab, setActiveTab] = useState("PROJECTS");
   const [currentTime, setCurrentTime] = useState("");
   const [showCopied, setShowCopied] = useState(false);
@@ -201,6 +160,8 @@ export function PortfolioSteamPage() {
     lastUpdated: "February 25, 2024",
     projectStatusIcon: "ongoing"
   };
+
+  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
   
   return (
     <div className="h-screen text-white relative overflow-x-hidden overflow-y-auto">
@@ -330,17 +291,16 @@ export function PortfolioSteamPage() {
         {/* Projects carousel */}
         <div className="mb-12">
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-800">
-          {portfolioProjects.map((project, index) => (
-            <a 
-              key={index} 
-              href={project.projectUrl} 
-              target="_blank" 
+          {posts.map((post, index) => (
+            <Link 
+              key={post._id} 
+              href={`/${post.slug.current}`}
               className={`flex-none group ${index === 0 ? 'w-[700px]' : 'w-64'} ${index > 0 ? 'ml-6' : ''}`}
             >
               <div className={`relative ${index === 0 ? 'h-96 w-full' : 'h-96 w-full'} mb-2 overflow-hidden rounded bg-gray-800/50 backdrop-blur-sm shadow-lg`}>
                 <img 
-                  src={project.imageUrl} 
-                  alt={project.title} 
+                  src={post.imageUrl || '/placeholder.jpg'} 
+                  alt={post.title} 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 {index === 0 && (
@@ -348,44 +308,46 @@ export function PortfolioSteamPage() {
                     FEATURED
                   </div>
                 )}
-                {/* Project status indicator */}
-                <div className="absolute top-2 left-2 bg-black/60 rounded px-2 py-1 flex items-center gap-1">
-                  {project.status === "completed" ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-green-500">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-blue-500">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                  )}
-                  <span className="text-xs">{project.status?.toUpperCase()}</span>
-                </div>
-                {index === 0 && (
+                {/* Post status indicator - if you have status data */}
+                {post.status && (
+                  <div className="absolute top-2 left-2 bg-black/60 rounded px-2 py-1 flex items-center gap-1">
+                    {post.status === "published" ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-green-500">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 text-blue-500">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    )}
+                    <span className="text-xs">{post.status?.toUpperCase()}</span>
+                  </div>
+                )}
+                {index === 0 && post.categories && (
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                     <div className="flex flex-wrap gap-2 mb-2">
-                      {project.technologies?.map((tech, techIndex) => (
-                        <span key={techIndex} className="bg-blue-600/80 text-xs px-2 py-0.5 rounded">
-                          {tech}
+                      {post.categories?.map((category, catIndex) => (
+                        <span key={catIndex} className="bg-blue-600/80 text-xs px-2 py-0.5 rounded">
+                          {category}
                         </span>
                       ))}
                     </div>
                   </div>
                 )}
               </div>
-              <h3 className={`font-bold ${index === 0 ? 'text-xl' : 'text-lg'}`}>{project.title}</h3>
+              <h2 className={`font-bold ${index === 0 ? 'text-xl' : 'text-lg'} text-xl font-semibold`}>{post.title}</h2>
               <p className="text-sm text-gray-400">
-                {index === 0 ? project.description : `${project.description.substring(0, 50)}...`}
+                {new Date(post.publishedAt).toLocaleDateString()}
               </p>
               {index === 0 && (
                 <div className="mt-2 flex items-center text-blue-400 text-sm">
-                  <span>View Project</span>
+                  <span>Read Post</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </div>
               )}
-            </a>
+            </Link>
           ))}
           </div>
         </div>
